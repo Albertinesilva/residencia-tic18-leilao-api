@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-ApiRestfulApplication<api-restful>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.residenciatic18.apirestful.ApiRestfulApplication",
+      "projectName": "api-restful",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}
