@@ -1,23 +1,31 @@
-// package com.residenciatic18.apileilao.entities;
+package com.residenciatic18.apileilao.entities;
 
-// import java.util.ArrayList;
-// import java.util.List;
+import java.util.ArrayList;
+import java.util.List;
 
-// import jakarta.persistence.Entity;
-// import lombok.AllArgsConstructor;
-// import lombok.Getter;
-// import lombok.NoArgsConstructor;
-// import lombok.Setter;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-// @AllArgsConstructor
-// @NoArgsConstructor
-// @Getter
-// @Setter
-// @Entity(name = "tb_lance")
-// public class Lance extends AbstractEntity {
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@Entity(name = "tb_lance")
+public class Lance extends AbstractEntity {
   
-//   private List<Leilao> leiloes = new ArrayList<>();
+  @ManyToOne
+  @JoinColumn(name = "leilao_id")
+  private Leilao leilao;
 
-//   private List<Concorrente> concorrentes = new ArrayList<>();
-//   private Double valor;
-// }
+  @ManyToOne
+  @JoinColumn(name = "concorrente_id")
+  private Concorrente concorrente;
+
+  private Double valor;
+  
+}

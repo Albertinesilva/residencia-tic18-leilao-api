@@ -1,11 +1,11 @@
-// package com.residenciatic18.apileilao.repositories;
+package com.residenciatic18.apileilao.repositories;
 
-// import org.springframework.data.jpa.repository.JpaRepository;
-// import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-// import com.residenciatic18.apileilao.entities.Lance;
+import com.residenciatic18.apileilao.entities.Lance;
 
-// @Repository
-// public interface LanceRepository extends JpaRepository<Lance, Long>{
+@Repository
+public interface LanceRepository extends JpaRepository<Lance, Long>{
   
-// }
+}
