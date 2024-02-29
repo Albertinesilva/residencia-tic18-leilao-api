@@ -2,11 +2,11 @@
   "configurations": [
     {
       "type": "java",
-      "name": "Spring Boot-ApiRestfulApplication<api-restful>",
+      "name": "Spring Boot-ApiLeilaoApplication<api-leilao>",
       "request": "launch",
       "cwd": "${workspaceFolder}",
-      "mainClass": "com.residenciatic18.apirestful.ApiRestfulApplication",
-      "projectName": "api-restful",
+      "mainClass": "com.residenciatic18.apileilao.ApiLeilaoApplication",
+      "projectName": "api-leilao",
       "args": "",
       "envFile": "${workspaceFolder}/.env"
     }
