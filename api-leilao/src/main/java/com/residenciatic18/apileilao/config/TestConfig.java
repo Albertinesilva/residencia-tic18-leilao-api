@@ -37,16 +37,18 @@ public class TestConfig implements CommandLineRunner {
 		Concorrente c3 = new Concorrente("José", "12312312300");
 		Concorrente c4 = new Concorrente("Ana", "45645645600");
 		Concorrente c5 = new Concorrente("Carlos", "78978978900");
+		Concorrente c6 = new Concorrente("Paula", "66835443132");
 
-		concorrenteRepository.saveAll(Arrays.asList(c1, c2, c3, c4, c5));
+		concorrenteRepository.saveAll(Arrays.asList(c1, c2, c3, c4, c5, c6));
 
 		Leilao l1 = new Leilao("Leilao de um carro", 10000.00, LeilaoStatus.ABERTO);
 		Leilao l2 = new Leilao("Leilao de um computador", 5000.00, LeilaoStatus.ABERTO);
 		Leilao l3 = new Leilao("Leilao de um celular", 3000.00, LeilaoStatus.FECHADO);
 		Leilao l4 = new Leilao("Leilao de um livro", 1000.00, LeilaoStatus.FECHADO);
 		Leilao l5 = new Leilao("Leilao de um quadro", 2000.00, LeilaoStatus.ABERTO);
+		Leilao l6 = new Leilao("Leilao de um notebook", 4000.00, LeilaoStatus.ABERTO);
 
-		leilaoRepository.saveAll(Arrays.asList(l1, l2, l3, l4, l5));
+		leilaoRepository.saveAll(Arrays.asList(l1, l2, l3, l4, l5, l6));
 
 		Lance lance2 = new Lance(l2, c2, 6000.00);
 		Lance lance3 = new Lance(l3, c3, 4000.00);
