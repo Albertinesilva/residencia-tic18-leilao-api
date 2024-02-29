@@ -16,36 +16,36 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.residenciatic18.apileilao.entities.Concorrente;
-import com.residenciatic18.apileilao.services.ConcorrenteService;
-import com.residenciatic18.apileilao.web.dto.ConcorrenteResponseDto;
-import com.residenciatic18.apileilao.web.dto.form.ConcorrenteForm;
-import com.residenciatic18.apileilao.web.dto.mapper.ConcorrenteMapper;
+import com.residenciatic18.apileilao.entities.Lance;
+import com.residenciatic18.apileilao.services.LanceService;
+import com.residenciatic18.apileilao.web.dto.LanceResponseDto;
+import com.residenciatic18.apileilao.web.dto.form.LanceForm;
+import com.residenciatic18.apileilao.web.dto.mapper.LanceMapper;
 
 @RestController
-@RequestMapping("/concorrentes")
-public class ConcorrenteController {
+@RequestMapping("/lance")
+public class LanceController {
 
   @Autowired
-  private ConcorrenteService concorrenteService;
+  private LanceService lanceService;
 
   @PostMapping("/create")
-  public ResponseEntity<ConcorrenteResponseDto> create(@RequestBody ConcorrenteForm createDto) {
-    Concorrente obj = concorrenteService.salvar(ConcorrenteMapper.toConcorrente(createDto));
+  public ResponseEntity<LanceResponseDto> create(@RequestBody LanceForm createDto) {
+    Lance obj = lanceService.salvar(LanceMapper.toLeilao(createDto));
     URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
-    return ResponseEntity.created(uri).body(ConcorrenteMapper.toDto(obj));
+    return ResponseEntity.created(uri).body(LanceMapper.toDto(obj));
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<List<ConcorrenteResponseDto>> getById(@PathVariable Long id) {
+  public ResponseEntity<List<LanceResponseDto>> getById(@PathVariable Long id) {
     try {
-      List<Concorrente> concorrentes = concorrenteService.buscarTodos(id);
+      List<Lance> lances = lanceService.buscarTodos(id);
 
-      if (concorrentes.isEmpty()) {
+      if (lances.isEmpty()) {
         return ResponseEntity.notFound().build();
       }
 
-      return ResponseEntity.ok(ConcorrenteMapper.toListDto(concorrentes));
+      return ResponseEntity.ok(LanceMapper.toListDto(lances));
 
     } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -53,14 +53,14 @@ public class ConcorrenteController {
   }
 
   @GetMapping("/")
-  public ResponseEntity<List<ConcorrenteResponseDto>> buscarTodos() {
-    return ResponseEntity.ok(ConcorrenteMapper.toListDto(concorrenteService.buscarTodos(null)));
+  public ResponseEntity<List<LanceResponseDto>> buscarTodos() {
+    return ResponseEntity.ok(LanceMapper.toListDto(lanceService.buscarTodos(null)));
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<ConcorrenteResponseDto> update(@PathVariable Long id, @RequestBody ConcorrenteForm createDto) {
+  public ResponseEntity<LanceResponseDto> update(@PathVariable Long id, @RequestBody LanceForm createDto) {
     try {
-      return ResponseEntity.ok(ConcorrenteMapper.toDto(concorrenteService.update(id, createDto)));
+      return ResponseEntity.ok(LanceMapper.toDto(lanceService.update(id, createDto)));
 
     } catch (Exception e) {
       return ResponseEntity.notFound().build();
@@ -70,10 +70,10 @@ public class ConcorrenteController {
   @DeleteMapping("{id}")
   public ResponseEntity<Void> excluir(@PathVariable("id") Long id) {
 
-    if (concorrenteService.isExisteId(id)) {
+    if (lanceService.isExisteId(id)) {
 
       try {
-        concorrenteService.delete(id);
+        lanceService.delete(id);
         return ResponseEntity.ok().build();
 
       } catch (Exception e) {

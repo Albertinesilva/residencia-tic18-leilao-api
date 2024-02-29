@@ -7,8 +7,6 @@ import com.residenciatic18.apileilao.web.dto.form.LeilaoForm;
 
 public interface LeilaoService {
 
-  List<Leilao> buscarPorDescricao(String nome);
-
   List<Leilao> buscarTodos(Long id);
 
   Leilao salvar(Leilao leilao);

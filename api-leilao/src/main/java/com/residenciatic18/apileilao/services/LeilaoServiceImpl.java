@@ -1,18 +1,14 @@
 package com.residenciatic18.apileilao.services;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.residenciatic18.apileilao.entities.Aeroporto;
 import com.residenciatic18.apileilao.entities.Leilao;
 import com.residenciatic18.apileilao.repositories.LeilaoRepository;
-import com.residenciatic18.apileilao.web.dto.form.AeroportoForm;
 import com.residenciatic18.apileilao.web.dto.form.LeilaoForm;
 
 @Service
@@ -27,12 +23,6 @@ public class LeilaoServiceImpl implements LeilaoService {
   @Transactional
   public Leilao salvar(Leilao leilao) {
     return leilaoRepository.save(leilao);
-  }
-
-  @Override
-  public List<Leilao> buscarPorDescricao(String nome) {
-
-    throw new UnsupportedOperationException("Unimplemented method 'buscarPorDescricao'");
   }
 
   @Override

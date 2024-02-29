@@ -17,13 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.residenciatic18.apileilao.entities.Leilao;
-import com.residenciatic18.apileilao.repositories.LeilaoRepository;
 import com.residenciatic18.apileilao.services.LeilaoService;
-import com.residenciatic18.apileilao.web.dto.AeroportoResponseDto;
 import com.residenciatic18.apileilao.web.dto.LeilaoResponseDto;
-import com.residenciatic18.apileilao.web.dto.form.AeroportoForm;
 import com.residenciatic18.apileilao.web.dto.form.LeilaoForm;
-import com.residenciatic18.apileilao.web.dto.mapper.AeroportoMapper;
 import com.residenciatic18.apileilao.web.dto.mapper.LeilaoMapper;
 
 @RestController

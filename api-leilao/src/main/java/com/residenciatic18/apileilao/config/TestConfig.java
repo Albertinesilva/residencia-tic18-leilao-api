@@ -48,13 +48,12 @@ public class TestConfig implements CommandLineRunner {
 
 		leilaoRepository.saveAll(Arrays.asList(l1, l2, l3, l4, l5));
 
-		Lance lance1 = new Lance(l1, c1, 11000.00);
 		Lance lance2 = new Lance(l2, c2, 6000.00);
 		Lance lance3 = new Lance(l3, c3, 4000.00);
 		Lance lance4 = new Lance(l4, c4, 2000.00);
 		Lance lance5 = new Lance(l5, c5, 3000.00);
 
-		lanceRepository.saveAll(Arrays.asList(lance1, lance2, lance3, lance4, lance5));
+		lanceRepository.saveAll(Arrays.asList(lance2, lance3, lance4, lance5));
 
 	}
 }

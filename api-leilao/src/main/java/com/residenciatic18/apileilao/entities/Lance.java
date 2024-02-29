@@ -1,8 +1,5 @@
 package com.residenciatic18.apileilao.entities;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -17,7 +14,7 @@ import lombok.Setter;
 @Setter
 @Entity(name = "tb_lance")
 public class Lance extends AbstractEntity {
-  
+
   @ManyToOne
   @JoinColumn(name = "leilao_id")
   private Leilao leilao;
@@ -27,5 +24,5 @@ public class Lance extends AbstractEntity {
   private Concorrente concorrente;
 
   private Double valor;
-  
+
 }

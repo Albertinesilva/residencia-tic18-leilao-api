@@ -3,14 +3,13 @@ package com.residenciatic18.apileilao.services;
 import java.util.List;
 
 import com.residenciatic18.apileilao.entities.Lance;
-import com.residenciatic18.apileilao.entities.Leilao;
 import com.residenciatic18.apileilao.web.dto.form.LanceForm;
 
 public interface LanceService {
 
   List<Lance> buscarTodos(Long id);
 
-  Lance salvar(Leilao leilao);
+  Lance salvar(Lance lance);
 
   Lance buscarPorId(Long id);
 
