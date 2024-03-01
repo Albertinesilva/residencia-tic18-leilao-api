@@ -12,6 +12,8 @@ public interface LanceService {
 
   List<Lance> findAll();
 
+  List<LanceResponseDto> getByLeilaoId(Long id);
+
   Lance salvar(Lance lance);
 
   Lance buscarPorId(Long id);

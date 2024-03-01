@@ -48,6 +48,26 @@ public class LanceController {
     }
   }
 
+  @GetMapping("/leilao={id}")
+  public ResponseEntity<?> getByLeilaoId(@PathVariable Long id) {
+    List<LanceResponseDto> lances = lanceService.getByLeilaoId(id);
+    if (!lances.isEmpty()) {
+      return ResponseEntity.ok(lances);
+    } else {
+      return ResponseEntity.notFound().build();
+    }
+  }
+
+  // @GetMapping("/concorrente={id}")
+  // public ResponseEntity<?> getByConcorrenteId(@PathVariable Long id) {
+  //   List<LanceResponseDto> lances = lanceService.getByConcorrenteId(id);
+  //   if (!lances.isEmpty()) {
+  //     return ResponseEntity.ok(lances);
+  //   } else {
+  //     return ResponseEntity.notFound().build();
+  //   }
+  // }
+
   @PutMapping("/{id}")
   public ResponseEntity<LanceResponseDto> update(@PathVariable Long id, @RequestBody LanceForm createDto) {
     try {

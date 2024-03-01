@@ -44,6 +44,14 @@ public class LanceServiceImpl implements LanceService {
   }
 
   @Override
+  @Transactional(readOnly = true)
+  public List<LanceResponseDto> getByLeilaoId(Long id) {
+    Leilao leilao = new Leilao();
+    leilao.setId(id);
+    return LanceMapper.toListDto(lanceRepository.findByLeilaoId(leilao.getId()));
+  }
+
+  @Override
   public List<Lance> findAll() {
     return lanceRepository.findAll();
   }
