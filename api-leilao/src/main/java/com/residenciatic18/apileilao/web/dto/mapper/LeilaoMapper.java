@@ -20,7 +20,7 @@ public class LeilaoMapper {
     PropertyMap<Leilao, LeilaoResponseDto> props = new PropertyMap<Leilao, LeilaoResponseDto>() {
       @Override
       protected void configure() {
-        // map().setId(source.getId());
+        map().setId(source.getId());
         map().setDescricrao(source.getDescricrao());
         map().setValorMinimo(source.getValorMinimo());
         map().setLeilaoStatus(source.getLeilaoStatus());

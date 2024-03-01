@@ -3,11 +3,16 @@ package com.residenciatic18.apileilao.services;
 import java.util.List;
 
 import com.residenciatic18.apileilao.entities.Leilao;
+import com.residenciatic18.apileilao.web.dto.LeilaoResponseDto;
 import com.residenciatic18.apileilao.web.dto.form.LeilaoForm;
 
 public interface LeilaoService {
 
-  List<Leilao> buscarTodos(Long id);
+  // List<Leilao> buscarTodos(Long id);
+
+  List<LeilaoResponseDto> buscarTodos(Long id);
+
+  List<Leilao> findAll();
 
   Leilao salvar(Leilao leilao);
 

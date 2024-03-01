@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -37,24 +38,14 @@ public class LanceController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<List<LanceResponseDto>> getById(@PathVariable Long id) {
-    try {
-      List<Lance> lances = lanceService.buscarTodos(id);
+  public ResponseEntity<List<LanceResponseDto>> getById(@RequestParam(required = false) Long id) {
+    List<LanceResponseDto> lance = lanceService.buscarTodos(id);
 
-      if (lances.isEmpty()) {
-        return ResponseEntity.notFound().build();
-      }
-
-      return ResponseEntity.ok(LanceMapper.toListDto(lances));
-
-    } catch (Exception e) {
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    if (!lance.isEmpty()) {
+      return ResponseEntity.ok().body(lance);
+    } else {
+      return ResponseEntity.notFound().build();
     }
-  }
-
-  @GetMapping("/")
-  public ResponseEntity<List<LanceResponseDto>> buscarTodos() {
-    return ResponseEntity.ok(LanceMapper.toListDto(lanceService.buscarTodos(null)));
   }
 
   @PutMapping("/{id}")

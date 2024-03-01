@@ -1,6 +1,7 @@
 package com.residenciatic18.apileilao.services;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.residenciatic18.apileilao.entities.Leilao;
 import com.residenciatic18.apileilao.repositories.LeilaoRepository;
+import com.residenciatic18.apileilao.web.dto.LeilaoResponseDto;
 import com.residenciatic18.apileilao.web.dto.form.LeilaoForm;
+import com.residenciatic18.apileilao.web.dto.mapper.LeilaoMapper;
 
 @Service
 @Transactional(readOnly = false)
@@ -27,7 +30,6 @@ public class LeilaoServiceImpl implements LeilaoService {
 
   @Override
   public Leilao buscarPorId(Long id) {
-
     return leilaoRepository.findById(id)
         .orElseThrow(() -> new IllegalArgumentException("Id Inválido para o leilao:" + id));
   }
@@ -48,24 +50,25 @@ public class LeilaoServiceImpl implements LeilaoService {
 
   @Override
   @Transactional(readOnly = true)
-  public List<Leilao> buscarTodos(Long id) {
-
-    List<Leilao> todosOsLeiloes = leilaoRepository.findAll();
-    List<Leilao> leiloesEncontrados = new ArrayList<>();
-
-    if (id != null) {
-
-      for (Leilao leilao : todosOsLeiloes) {
-        if (leilao.getId().equals(id)) {
-          leiloesEncontrados.add(leilao);
-          break; // Encontrou o leilão, então sai do loop
-        }
-      }
+  public List<LeilaoResponseDto> buscarTodos(Long id) {
+    
+    if (id == null) {
+      return LeilaoMapper.toListDto(leilaoRepository.findAll());
 
     } else {
-      leiloesEncontrados.addAll(todosOsLeiloes); // Adiciona todos os leilões se o ID for nulo
+
+      Leilao leilao = buscarPorId(id);
+      if (leilao != null) {
+        return LeilaoMapper.toListDto(Collections.singletonList(leilao));
+
+      } else {
+        return Collections.emptyList();
+      }
     }
-    return leiloesEncontrados;
+  }
+
+  public List<Leilao> findAll() {
+    return leilaoRepository.findAll();
   }
 
   @Override

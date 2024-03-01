@@ -1,5 +1,7 @@
 package com.residenciatic18.apileilao.entities;
 
+import com.residenciatic18.apileilao.web.dto.form.LanceForm;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -24,5 +26,13 @@ public class Lance extends AbstractEntity {
   private Concorrente concorrente;
 
   private Double valor;
+
+  public void setLeilao(Long id) {
+    this.leilao.setId(id);
+  }
+
+  public void setConcorrente(Long id) {
+    this.concorrente.setId(id);
+  }
 
 }

@@ -1,8 +1,6 @@
 package com.residenciatic18.apileilao.web.dto;
 
 import com.residenciatic18.apileilao.entities.AbstractEntity;
-import com.residenciatic18.apileilao.entities.Concorrente;
-import com.residenciatic18.apileilao.entities.Leilao;
 
 import lombok.*;
 
@@ -16,10 +14,10 @@ public class LanceResponseDto extends AbstractEntity {
   private Long concorrenteId;
   private Double valor;
 
-  public LanceResponseDto(Leilao leilao, Concorrente concorrente, Double valor) {
-    setId(concorrente.getId());
-    this.leilaoId = leilao.getId();
-    this.concorrenteId = concorrente.getId();
+  public LanceResponseDto(Long id, Long leilaoId, Long concorrenteId, Double valor) {
+    this.id = id;
+    this.leilaoId = leilaoId;
+    this.concorrenteId = concorrenteId;
     this.valor = valor;
   }
 
