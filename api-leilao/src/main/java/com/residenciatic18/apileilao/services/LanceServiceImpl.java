@@ -24,6 +24,13 @@ public class LanceServiceImpl implements LanceService {
   @Autowired
   private LanceRepository lanceRepository;
 
+  @SuppressWarnings("null")
+  @Override
+  @Transactional
+  public Lance salvar(Lance lance) {
+    return lanceRepository.save(lance);
+  }
+
   @Override
   @Transactional(readOnly = true)
   public List<LanceResponseDto> buscarTodos(Long id) {
@@ -52,15 +59,16 @@ public class LanceServiceImpl implements LanceService {
   }
 
   @Override
-  public List<Lance> findAll() {
-    return lanceRepository.findAll();
+  @Transactional(readOnly = true)
+  public List<LanceResponseDto> getByConcorrenteId(Long id) {
+    Concorrente concorrente = new Concorrente();
+    concorrente.setId(id);
+    return LanceMapper.toListDto(lanceRepository.findByConcorrenteId(concorrente.getId()));
   }
 
-  @SuppressWarnings("null")
   @Override
-  @Transactional
-  public Lance salvar(Lance lance) {
-    return lanceRepository.save(lance);
+  public List<Lance> findAll() {
+    return lanceRepository.findAll();
   }
 
   @Override

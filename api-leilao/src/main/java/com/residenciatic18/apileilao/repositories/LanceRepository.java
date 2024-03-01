@@ -11,4 +11,6 @@ import com.residenciatic18.apileilao.entities.Lance;
 public interface LanceRepository extends JpaRepository<Lance, Long> {
 
   List<Lance> findByLeilaoId(Long leilaoId);
+
+  List<Lance> findByConcorrenteId(Long concorrenteId);
 }
