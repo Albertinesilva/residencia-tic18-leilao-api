@@ -76,6 +76,7 @@ public class LanceServiceImpl implements LanceService {
     return lanceRepository.findAll();
   }
 
+  @SuppressWarnings("null")
   @Override
   public Lance buscarPorId(Long id) {
     return lanceRepository.findById(id)
@@ -109,11 +110,13 @@ public class LanceServiceImpl implements LanceService {
     return salvar(lance);
   }
 
+  @SuppressWarnings("null")
   @Override
   public void delete(Long id) {
     lanceRepository.deleteById(id);
   }
 
+  @SuppressWarnings("null")
   @Override
   public Boolean isExisteId(Long id) {
     if (lanceRepository.existsById(id)) {

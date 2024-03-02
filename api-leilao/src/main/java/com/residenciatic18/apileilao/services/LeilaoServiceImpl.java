@@ -27,17 +27,20 @@ public class LeilaoServiceImpl implements LeilaoService {
     return leilaoRepository.save(leilao);
   }
 
+  @SuppressWarnings("null")
   @Override
   public Leilao buscarPorId(Long id) {
     return leilaoRepository.findById(id)
         .orElseThrow(() -> new IllegalArgumentException("Id Inválido para o leilao:" + id));
   }
 
+  @SuppressWarnings("null")
   @Override
   public void delete(Long id) {
     leilaoRepository.deleteById(id);
   }
 
+  @SuppressWarnings("null")
   @Override
   public Boolean isExisteId(Long id) {
     if (leilaoRepository.existsById(id)) {

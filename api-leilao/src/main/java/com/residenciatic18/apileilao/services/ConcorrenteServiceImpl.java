@@ -51,6 +51,7 @@ public class ConcorrenteServiceImpl implements ConcorrenteService {
     return concorrenteRepository.findAll();
   }
 
+  @SuppressWarnings("null")
   @Override
   public Concorrente buscarPorId(Long id) {
     return concorrenteRepository.findById(id)
@@ -65,11 +66,13 @@ public class ConcorrenteServiceImpl implements ConcorrenteService {
     return salvar(concorrente);
   }
 
+  @SuppressWarnings("null")
   @Override
   public void delete(Long id) {
     concorrenteRepository.deleteById(id);
   }
 
+  @SuppressWarnings("null")
   @Override
   public Boolean isExisteId(Long id) {
     if (concorrenteRepository.existsById(id)) {

@@ -49,6 +49,7 @@ public class LanceController {
   // return ResponseEntity.created(uri).body(LanceMapper.toDto(obj));
   // }
 
+  @SuppressWarnings("static-access")
   @PostMapping("/create")
   public ResponseEntity<LanceResponseDto> create(@RequestBody LanceForm createDto) {
     // Verificar se o ID do Concorrente existe
