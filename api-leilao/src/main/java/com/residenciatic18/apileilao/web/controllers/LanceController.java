@@ -32,7 +32,7 @@ public class LanceController {
 
   @PostMapping("/create")
   public ResponseEntity<LanceResponseDto> create(@RequestBody LanceForm createDto) {
-    Lance obj = lanceService.salvar(LanceMapper.toLeilao(createDto));
+    Lance obj = lanceService.salvar(LanceMapper.toLance(createDto));
     URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
     return ResponseEntity.created(uri).body(LanceMapper.toDto(obj));
   }

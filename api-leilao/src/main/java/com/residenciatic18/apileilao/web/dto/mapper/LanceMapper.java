@@ -6,14 +6,36 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 
+import com.residenciatic18.apileilao.entities.Concorrente;
 import com.residenciatic18.apileilao.entities.Lance;
+import com.residenciatic18.apileilao.entities.Leilao;
 import com.residenciatic18.apileilao.web.dto.LanceResponseDto;
 import com.residenciatic18.apileilao.web.dto.form.LanceForm;
 
 public class LanceMapper {
 
-  public static Lance toLeilao(LanceForm createDto) {
-    return new ModelMapper().map(createDto, Lance.class);
+  // public static Lance toLance(LanceForm createDto) {
+  // return new ModelMapper().map(createDto, Lance.class);
+  // }
+
+  public static Lance toLance(LanceForm createDto) {
+    Lance lance = new Lance();
+
+    // Criar um objeto Leilao com o ID fornecido
+    Leilao leilao = new Leilao();
+    leilao.setId(createDto.getLeilaoId());
+
+    Concorrente concorrente = new Concorrente();
+    concorrente.setId(createDto.getConcorrenteId());
+
+    // Definir o leilao e o concorrente do lance
+    lance.setLeilao(leilao);
+    lance.setConcorrente(concorrente);
+
+    // Definir o valor do lance
+    lance.setValor(createDto.getValor());
+
+    return lance;
   }
 
   public static LanceResponseDto toDto(Lance lance) {

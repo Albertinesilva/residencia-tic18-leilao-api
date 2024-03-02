@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -80,23 +79,8 @@ public class LanceServiceImpl implements LanceService {
   @Override
   public Lance buscarPorId(Long id) {
     return lanceRepository.findById(id)
-        .orElseThrow(() -> new IllegalArgumentException("Id Inválido para o leilao:" + id));
+        .orElseThrow(() -> new IllegalArgumentException("Id Inválido para o lance:" + id));
   }
-
-  // @Override
-  // public Lance update(Long id, LanceForm lanceForm) {
-  // Lance lance = buscarPorId(id);
-  // Concorrente concorrente = new Concorrente();
-  // Leilao leilao = new Leilao();
-
-  // leilao.setId(lanceForm.getLeilaoId());
-  // concorrente.setId(lanceForm.getConcorrenteId());
-
-  // lance.setLeilao(leilao);
-  // lance.setConcorrente(concorrente);
-  // lance.setValor(lanceForm.getValor());
-  // return salvar(lance);
-  // }
 
   @Override
   public Lance update(Long id, LanceForm lanceForm) {

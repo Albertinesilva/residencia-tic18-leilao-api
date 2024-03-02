@@ -1,5 +1,6 @@
 package com.residenciatic18.apileilao.entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +8,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.residenciatic18.apileilao.enums.LeilaoStatus;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +20,12 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity(name = "tb_leilao")
-public class Leilao extends AbstractEntity {
+public class Leilao implements Serializable {
+  private static final long serialVersionUID = 1L;
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
   private String descricrao;
   private Double valorMinimo;
@@ -30,6 +39,14 @@ public class Leilao extends AbstractEntity {
     this.descricrao = descricrao;
     this.valorMinimo = valorMinimo;
     setOrderStatus(leilaoStatus);
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
   }
 
   public LeilaoStatus getOrderStatus() {
