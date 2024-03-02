@@ -11,10 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.residenciatic18.apileilao.entities.Concorrente;
 import com.residenciatic18.apileilao.repositories.ConcorrenteRepository;
 import com.residenciatic18.apileilao.web.dto.ConcorrenteResponseDto;
-import com.residenciatic18.apileilao.web.dto.LanceResponseDto;
 import com.residenciatic18.apileilao.web.dto.form.ConcorrenteForm;
 import com.residenciatic18.apileilao.web.dto.mapper.ConcorrenteMapper;
-import com.residenciatic18.apileilao.web.dto.mapper.LanceMapper;
 
 @Service
 @Transactional(readOnly = false)
