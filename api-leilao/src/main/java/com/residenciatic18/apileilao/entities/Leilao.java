@@ -26,6 +26,10 @@ public class Leilao extends AbstractEntity{
   @OneToMany(mappedBy = "leilao")
   private List<Lance> lances = new ArrayList<>();
 
+  public Leilao(Long id) {
+    super(id);
+  }
+
   public Leilao(String descricrao, Double valorMinimo, LeilaoStatus leilaoStatus) {
     this.descricrao = descricrao;
     this.valorMinimo = valorMinimo;

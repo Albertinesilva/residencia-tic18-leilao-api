@@ -19,7 +19,6 @@ import lombok.Setter;
 @Entity(name = "tb_concorrente")
 public class Concorrente extends AbstractEntity{
 
-  private Long id;
   private String nome;
   private String cpf;
 
@@ -27,16 +26,12 @@ public class Concorrente extends AbstractEntity{
   @OneToMany(mappedBy = "concorrente")
   private List<Lance> lances = new ArrayList<>();
 
+  public Concorrente(Long id) {
+    super(id);
+  }
+
   public Concorrente(String nome, String cpf) {
     this.nome = nome;
     this.cpf = cpf;
-  }
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
   }
 }

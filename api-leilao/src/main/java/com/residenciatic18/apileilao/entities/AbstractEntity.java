@@ -18,6 +18,10 @@ public abstract class AbstractEntity implements Serializable {
     super();
   }
 
+  public AbstractEntity(Long id) {
+    this.id = id;
+  }
+
   public Long getId() {
     return id;
   }
