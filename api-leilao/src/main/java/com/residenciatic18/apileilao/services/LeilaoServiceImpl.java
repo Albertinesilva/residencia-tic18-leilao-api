@@ -1,6 +1,5 @@
 package com.residenciatic18.apileilao.services;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -51,7 +50,7 @@ public class LeilaoServiceImpl implements LeilaoService {
   @Override
   @Transactional(readOnly = true)
   public List<LeilaoResponseDto> buscarTodos(Long id) {
-    
+
     if (id == null) {
       return LeilaoMapper.toListDto(leilaoRepository.findAll());
 

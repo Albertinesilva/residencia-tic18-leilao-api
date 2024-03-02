@@ -12,10 +12,8 @@ import com.residenciatic18.apileilao.entities.Lance;
 import com.residenciatic18.apileilao.entities.Leilao;
 import com.residenciatic18.apileilao.repositories.LanceRepository;
 import com.residenciatic18.apileilao.web.dto.LanceResponseDto;
-import com.residenciatic18.apileilao.web.dto.LeilaoResponseDto;
 import com.residenciatic18.apileilao.web.dto.form.LanceForm;
 import com.residenciatic18.apileilao.web.dto.mapper.LanceMapper;
-import com.residenciatic18.apileilao.web.dto.mapper.LeilaoMapper;
 
 @Service
 @Transactional(readOnly = false)

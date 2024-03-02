@@ -24,7 +24,7 @@ import com.residenciatic18.apileilao.web.dto.form.LanceForm;
 import com.residenciatic18.apileilao.web.dto.mapper.LanceMapper;
 
 @RestController
-@RequestMapping("/lance")
+@RequestMapping("/lance/")
 public class LanceController {
 
   @Autowired
@@ -50,7 +50,9 @@ public class LanceController {
 
   @GetMapping("/leilao={id}")
   public ResponseEntity<?> getByLeilaoId(@PathVariable Long id) {
+
     List<LanceResponseDto> lances = lanceService.getByLeilaoId(id);
+
     if (!lances.isEmpty()) {
       return ResponseEntity.ok(lances);
     } else {
