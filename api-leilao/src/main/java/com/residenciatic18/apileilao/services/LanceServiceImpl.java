@@ -2,7 +2,9 @@ package com.residenciatic18.apileilao.services;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +23,12 @@ public class LanceServiceImpl implements LanceService {
 
   @Autowired
   private LanceRepository lanceRepository;
+
+  @Autowired
+  private LeilaoService leilaoService;
+
+  @Autowired
+  private ConcorrenteService concorrenteService;
 
   @SuppressWarnings("null")
   @Override
@@ -75,18 +83,45 @@ public class LanceServiceImpl implements LanceService {
         .orElseThrow(() -> new IllegalArgumentException("Id Inválido para o leilao:" + id));
   }
 
+  // @Override
+  // public Lance update(Long id, LanceForm lanceForm) {
+  // Lance lance = buscarPorId(id);
+  // Concorrente concorrente = new Concorrente();
+  // Leilao leilao = new Leilao();
+
+  // leilao.setId(lanceForm.getLeilaoId());
+  // concorrente.setId(lanceForm.getConcorrenteId());
+
+  // lance.setLeilao(leilao);
+  // lance.setConcorrente(concorrente);
+  // lance.setValor(lanceForm.getValor());
+  // return salvar(lance);
+  // }
+
   @Override
   public Lance update(Long id, LanceForm lanceForm) {
+
     Lance lance = buscarPorId(id);
-    Concorrente concorrente = new Concorrente();
-    Leilao leilao = new Leilao();
 
-    leilao.setId(lanceForm.getLeilaoId());
-    concorrente.setId(lanceForm.getConcorrenteId());
-
+    // Atualizar o leilão e o concorrente do lance
+    Leilao leilao = leilaoService.buscarPorId(lanceForm.getLeilaoId());
+    if (leilao == null) {
+      throw new NoSuchElementException("Leilão com ID " + lanceForm.getLeilaoId() + " não encontrado");
+    }
     lance.setLeilao(leilao);
+
+    Concorrente concorrente = concorrenteService.buscarPorId(lanceForm.getConcorrenteId());
+    if (concorrente == null) {
+      throw new NoSuchElementException("Concorrente com ID " + lanceForm.getConcorrenteId() + " não encontrado");
+    }
     lance.setConcorrente(concorrente);
-    lance.setValor(lanceForm.getValor());
+
+    Double valor = lanceForm.getValor();
+    if (valor == null || valor <= 0) {
+      throw new IllegalArgumentException("O valor do lance deve ser maior que zero");
+    }
+    lance.setValor(valor);
+
     return salvar(lance);
   }
 
