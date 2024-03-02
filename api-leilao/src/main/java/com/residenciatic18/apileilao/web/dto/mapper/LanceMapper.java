@@ -19,7 +19,8 @@ public class LanceMapper {
   // }
 
   public static Lance toLance(LanceForm createDto) {
-    return new Lance(new Leilao(createDto.getLeilaoId()), new Concorrente(createDto.getConcorrenteId()), createDto.getValor());
+    return new Lance(new Leilao(createDto.getLeilaoId()), new Concorrente(createDto.getConcorrenteId()),
+        createDto.getValor());
   }
 
   public static LanceResponseDto toDto(Lance lance) {

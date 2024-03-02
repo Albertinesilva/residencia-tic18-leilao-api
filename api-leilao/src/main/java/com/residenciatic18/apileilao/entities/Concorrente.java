@@ -17,7 +17,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity(name = "tb_concorrente")
-public class Concorrente extends AbstractEntity{
+public class Concorrente extends AbstractEntity {
 
   private String nome;
   private String cpf;

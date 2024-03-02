@@ -16,7 +16,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity(name = "tb_leilao")
-public class Leilao extends AbstractEntity{
+public class Leilao extends AbstractEntity {
 
   private String descricrao;
   private Double valorMinimo;
