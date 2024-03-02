@@ -78,8 +78,14 @@ public class LanceServiceImpl implements LanceService {
   @Override
   public Lance update(Long id, LanceForm lanceForm) {
     Lance lance = buscarPorId(id);
-    lance.setConcorrente(lanceForm.getConcorrenteId().getId());
-    lance.setLeilao(lanceForm.getLeilaoId().getId());
+    Concorrente concorrente = new Concorrente();
+    Leilao leilao = new Leilao();
+
+    leilao.setId(lanceForm.getLeilaoId());
+    concorrente.setId(lanceForm.getConcorrenteId());
+
+    lance.setLeilao(leilao);
+    lance.setConcorrente(concorrente);
     lance.setValor(lanceForm.getValor());
     return salvar(lance);
   }

@@ -24,7 +24,7 @@ import com.residenciatic18.apileilao.web.dto.form.LanceForm;
 import com.residenciatic18.apileilao.web.dto.mapper.LanceMapper;
 
 @RestController
-@RequestMapping("/lance/")
+@RequestMapping("/lance")
 public class LanceController {
 
   @Autowired

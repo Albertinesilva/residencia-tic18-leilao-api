@@ -31,6 +31,17 @@ public class LanceMapper {
     return mapper.map(lance, LanceResponseDto.class);
   }
 
+  // public static LanceResponseDto toDto(Lance lance) {
+  // ModelMapper mapper = new ModelMapper();
+  // mapper.typeMap(Lance.class, LanceResponseDto.class)
+  // .addMapping(src -> src.getLeilao().getId(), LanceResponseDto::setLeilaoId)
+  // .addMapping(src -> src.getConcorrente().getId(),
+  // LanceResponseDto::setConcorrenteId)
+  // .addMapping(src -> src.getValor(), LanceResponseDto::setValor);
+
+  // return mapper.map(lance, LanceResponseDto.class);
+  // }
+
   public static List<LanceResponseDto> toListDto(List<Lance> lances) {
     return lances.stream().map(user -> toDto(user)).collect(Collectors.toList());
   }
