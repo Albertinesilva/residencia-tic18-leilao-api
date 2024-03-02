@@ -39,7 +39,7 @@ public class LeilaoController {
 
   @GetMapping("/{id}")
   public ResponseEntity<List<LeilaoResponseDto>> getById(@RequestParam(required = false) Long id) {
-    List<LeilaoResponseDto> leiloes = leilaoService.buscarTodos(id);
+    List<LeilaoResponseDto> leiloes = leilaoService.findById(id);
 
     if (!leiloes.isEmpty()) {
       return ResponseEntity.ok().body(leiloes);

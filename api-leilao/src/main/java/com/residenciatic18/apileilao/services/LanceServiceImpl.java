@@ -38,7 +38,7 @@ public class LanceServiceImpl implements LanceService {
 
   @Override
   @Transactional(readOnly = true)
-  public List<LanceResponseDto> buscarTodos(Long id) {
+  public List<LanceResponseDto> findById(Long id) {
 
     if (id == null) {
       return LanceMapper.toListDto(findAll());

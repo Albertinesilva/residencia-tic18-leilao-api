@@ -17,8 +17,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.residenciatic18.apileilao.entities.Concorrente;
 import com.residenciatic18.apileilao.entities.Lance;
+import com.residenciatic18.apileilao.entities.Leilao;
+import com.residenciatic18.apileilao.services.ConcorrenteService;
 import com.residenciatic18.apileilao.services.LanceService;
+import com.residenciatic18.apileilao.services.LeilaoService;
 import com.residenciatic18.apileilao.web.dto.LanceResponseDto;
 import com.residenciatic18.apileilao.web.dto.form.LanceForm;
 import com.residenciatic18.apileilao.web.dto.mapper.LanceMapper;
@@ -30,8 +34,39 @@ public class LanceController {
   @Autowired
   private LanceService lanceService;
 
+  @Autowired
+  private ConcorrenteService concorrenteService;
+
+  @Autowired
+  private LeilaoService leilaoService;
+
+  // @PostMapping("/create")
+  // public ResponseEntity<LanceResponseDto> create(@RequestBody LanceForm
+  // createDto) {
+  // Lance obj = lanceService.salvar(LanceMapper.toLance(createDto));
+  // URI uri =
+  // ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+  // return ResponseEntity.created(uri).body(LanceMapper.toDto(obj));
+  // }
+
   @PostMapping("/create")
   public ResponseEntity<LanceResponseDto> create(@RequestBody LanceForm createDto) {
+    // Verificar se o ID do Concorrente existe
+    Concorrente concorrente = concorrenteService.buscarPorId(createDto.getConcorrenteId());
+    if (concorrente == null) {
+      return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+    }
+
+    // Verificar se o ID do Leilão existe e se o Leilão está aberto
+    Leilao leilao = leilaoService.buscarPorId(createDto.getLeilaoId());
+    if (leilao == null) {
+      return ResponseEntity.badRequest().build();
+    }
+    if (leilao.getOrderStatus().equals(leilao.getOrderStatus().FECHADO)) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
+    // Salvar o lance e retornar a resposta com o URI do recurso criado
     Lance obj = lanceService.salvar(LanceMapper.toLance(createDto));
     URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
     return ResponseEntity.created(uri).body(LanceMapper.toDto(obj));
@@ -39,7 +74,7 @@ public class LanceController {
 
   @GetMapping("/{id}")
   public ResponseEntity<List<LanceResponseDto>> getById(@RequestParam(required = false) Long id) {
-    List<LanceResponseDto> lance = lanceService.buscarTodos(id);
+    List<LanceResponseDto> lance = lanceService.findById(id);
 
     if (!lance.isEmpty()) {
       return ResponseEntity.ok().body(lance);

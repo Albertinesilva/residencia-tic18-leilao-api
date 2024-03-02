@@ -8,7 +8,7 @@ import com.residenciatic18.apileilao.web.dto.form.LeilaoForm;
 
 public interface LeilaoService {
 
-  List<LeilaoResponseDto> buscarTodos(Long id);
+  List<LeilaoResponseDto> findById(Long id);
 
   List<Leilao> findAll();
 

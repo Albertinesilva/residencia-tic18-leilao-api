@@ -39,23 +39,23 @@ public class ConcorrenteController {
 
   @GetMapping("/{id}")
   public ResponseEntity<List<ConcorrenteResponseDto>> getById(@RequestParam(required = false) Long id) {
+
     try {
-      List<Concorrente> concorrentes = concorrenteService.buscarTodos(id);
+      List<ConcorrenteResponseDto> concorrentes = concorrenteService.findById(id);
 
       if (concorrentes.isEmpty()) {
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
       }
-
-      return ResponseEntity.ok(ConcorrenteMapper.toListDto(concorrentes));
+      return ResponseEntity.ok().body(concorrentes);
 
     } catch (Exception e) {
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+      return ResponseEntity.notFound().build();
     }
   }
 
   @GetMapping("/")
   public ResponseEntity<List<ConcorrenteResponseDto>> buscarTodos() {
-    return ResponseEntity.ok(ConcorrenteMapper.toListDto(concorrenteService.buscarTodos(null)));
+    return ResponseEntity.ok(ConcorrenteMapper.toListDto(concorrenteService.findAll()));
   }
 
   @PutMapping("/{id}")

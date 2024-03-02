@@ -3,13 +3,16 @@ package com.residenciatic18.apileilao.services;
 import java.util.List;
 
 import com.residenciatic18.apileilao.entities.Concorrente;
+import com.residenciatic18.apileilao.web.dto.ConcorrenteResponseDto;
 import com.residenciatic18.apileilao.web.dto.form.ConcorrenteForm;
 
 public interface ConcorrenteService {
 
-  List<Concorrente> buscarTodos(Long id);
-
   Concorrente salvar(Concorrente aeroporto);
+
+  List<ConcorrenteResponseDto> findById(Long id);
+
+  List<Concorrente> findAll();
 
   Concorrente buscarPorId(Long id);
 

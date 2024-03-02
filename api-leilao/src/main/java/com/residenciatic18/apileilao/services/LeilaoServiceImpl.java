@@ -49,7 +49,7 @@ public class LeilaoServiceImpl implements LeilaoService {
 
   @Override
   @Transactional(readOnly = true)
-  public List<LeilaoResponseDto> buscarTodos(Long id) {
+  public List<LeilaoResponseDto> findById(Long id) {
 
     if (id == null) {
       return LeilaoMapper.toListDto(leilaoRepository.findAll());
