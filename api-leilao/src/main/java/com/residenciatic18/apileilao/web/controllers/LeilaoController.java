@@ -48,6 +48,11 @@ public class LeilaoController {
     }
   }
 
+  @GetMapping("/")
+  public ResponseEntity<List<LeilaoResponseDto>> buscarTodos() {
+    return ResponseEntity.ok(LeilaoMapper.toListDto(leilaoService.findAll()));
+  }
+
   @PutMapping("/{id}")
   public ResponseEntity<LeilaoResponseDto> update(@PathVariable Long id, @RequestBody LeilaoForm createDto) {
     try {

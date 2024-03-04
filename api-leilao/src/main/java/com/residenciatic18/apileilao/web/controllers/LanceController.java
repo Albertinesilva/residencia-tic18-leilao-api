@@ -84,6 +84,11 @@ public class LanceController {
     }
   }
 
+  @GetMapping("/")
+  public ResponseEntity<List<LanceResponseDto>> buscarTodos() {
+    return ResponseEntity.ok(LanceMapper.toListDto(lanceService.findAll()));
+  }
+
   @GetMapping("/leilao={id}")
   public ResponseEntity<?> getByLeilaoId(@PathVariable Long id) {
 
