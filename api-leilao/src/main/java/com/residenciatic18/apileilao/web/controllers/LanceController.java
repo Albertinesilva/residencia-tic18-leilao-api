@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -40,15 +39,6 @@ public class LanceController {
   @Autowired
   private LeilaoService leilaoService;
 
-  // @PostMapping("/create")
-  // public ResponseEntity<LanceResponseDto> create(@RequestBody LanceForm
-  // createDto) {
-  // Lance obj = lanceService.salvar(LanceMapper.toLance(createDto));
-  // URI uri =
-  // ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
-  // return ResponseEntity.created(uri).body(LanceMapper.toDto(obj));
-  // }
-
   @SuppressWarnings("static-access")
   @PostMapping("/create")
   public ResponseEntity<LanceResponseDto> create(@RequestBody LanceForm createDto) {
@@ -74,7 +64,7 @@ public class LanceController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<List<LanceResponseDto>> getById(@RequestParam(required = false) Long id) {
+  public ResponseEntity<List<LanceResponseDto>> getById(@PathVariable(required = false) Long id) {
     List<LanceResponseDto> lance = lanceService.findById(id);
 
     if (!lance.isEmpty()) {
