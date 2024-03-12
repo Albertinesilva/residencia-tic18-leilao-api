@@ -23,67 +23,56 @@ import com.residenciatic18.apileilao.web.dto.form.ConcorrenteForm;
 import com.residenciatic18.apileilao.web.dto.mapper.ConcorrenteMapper;
 
 @RestController
-@RequestMapping("/concorrentes")
+@RequestMapping("/concorrentes/")
 public class ConcorrenteController {
 
   @Autowired
   private ConcorrenteService concorrenteService;
 
-  @PostMapping("/create")
+  @PostMapping("create")
   public ResponseEntity<ConcorrenteResponseDto> create(@RequestBody ConcorrenteForm createDto) {
-    Concorrente obj = concorrenteService.salvar(ConcorrenteMapper.toConcorrente(createDto));
-    URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
-    return ResponseEntity.created(uri).body(ConcorrenteMapper.toDto(obj));
-  }
-
-  @GetMapping("/{id}")
-  public ResponseEntity<List<ConcorrenteResponseDto>> getById(@PathVariable(required = false) Long id) {
     try {
-      if (id == null) {
-        return ResponseEntity.ok(ConcorrenteMapper.toListDto(concorrenteService.findAll()));
+      Concorrente obj = concorrenteService.salvar(ConcorrenteMapper.toConcorrente(createDto));
+      URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+      return ResponseEntity.created(uri).body(ConcorrenteMapper.toDto(obj));
 
-      } else {
-        List<ConcorrenteResponseDto> concorrentes = concorrenteService.findById(id);
-
-        if (concorrentes.isEmpty()) {
-          return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok().body(concorrentes);
-      }
     } catch (Exception e) {
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+      return ResponseEntity.badRequest().build();
     }
   }
 
-  @GetMapping("/")
+  @GetMapping("{id}")
+  public ResponseEntity<List<ConcorrenteResponseDto>> getById(@PathVariable Long id) {
+
+    if (concorrenteService.isExisteId(id)) {
+      return ResponseEntity.ok().body(concorrenteService.findById(id));
+
+    } else {
+      return ResponseEntity.notFound().build();
+    }
+  }
+
+  @GetMapping
   public ResponseEntity<List<ConcorrenteResponseDto>> buscarTodos() {
     return ResponseEntity.ok(ConcorrenteMapper.toListDto(concorrenteService.findAll()));
   }
 
-  @PutMapping("/{id}")
+  @PutMapping("{id}")
   public ResponseEntity<ConcorrenteResponseDto> update(@PathVariable Long id, @RequestBody ConcorrenteForm createDto) {
-    try {
-      return ResponseEntity.ok(ConcorrenteMapper.toDto(concorrenteService.update(id, createDto)));
 
-    } catch (Exception e) {
-      return ResponseEntity.notFound().build();
+    if (concorrenteService.isExisteId(id)) {
+      return ResponseEntity.ok(ConcorrenteMapper.toDto(concorrenteService.update(id, createDto)));
     }
+    return ResponseEntity.notFound().build();
   }
 
   @DeleteMapping("{id}")
   public ResponseEntity<Void> excluir(@PathVariable("id") Long id) {
 
     if (concorrenteService.isExisteId(id)) {
-
-      try {
-        concorrenteService.delete(id);
-        return ResponseEntity.ok().build();
-
-      } catch (Exception e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-      }
-    } else {
-      return ResponseEntity.notFound().build();
+      concorrenteService.delete(id);
+      return ResponseEntity.ok().build();
     }
+    return ResponseEntity.notFound().build();
   }
 }
