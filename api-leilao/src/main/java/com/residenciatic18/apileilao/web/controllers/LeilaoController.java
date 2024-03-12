@@ -23,41 +23,49 @@ import com.residenciatic18.apileilao.web.dto.form.LeilaoForm;
 import com.residenciatic18.apileilao.web.dto.mapper.LeilaoMapper;
 
 @RestController
-@RequestMapping("/leilao")
+@RequestMapping("/leilao/")
 public class LeilaoController {
 
   @Autowired
   private LeilaoService leilaoService;
 
-  @PostMapping("/create")
+  @PostMapping("create")
   public ResponseEntity<LeilaoResponseDto> create(@RequestBody LeilaoForm createDto) {
-    Leilao obj = leilaoService.salvar(LeilaoMapper.toLeilao(createDto));
-    URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
-    return ResponseEntity.created(uri).body(LeilaoMapper.toDto(obj));
+    try {
+      Leilao obj = leilaoService.salvar(LeilaoMapper.toLeilao(createDto));
+      URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+      return ResponseEntity.created(uri).body(LeilaoMapper.toDto(obj));
+
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().build();
+    }
   }
 
-  @GetMapping("/{id}")
-  public ResponseEntity<List<LeilaoResponseDto>> getById(@PathVariable(required = false) Long id) {
-    List<LeilaoResponseDto> leiloes = leilaoService.findById(id);
+  @GetMapping("{id}")
+  public ResponseEntity<List<LeilaoResponseDto>> getById(@PathVariable Long id) {
 
-    if (!leiloes.isEmpty()) {
-      return ResponseEntity.ok().body(leiloes);
+    if (leilaoService.isExisteId(id)) {
+      return ResponseEntity.ok().body(leilaoService.findById(id));
     } else {
       return ResponseEntity.notFound().build();
     }
   }
 
-  @GetMapping("/")
+  @GetMapping
   public ResponseEntity<List<LeilaoResponseDto>> buscarTodos() {
     return ResponseEntity.ok(LeilaoMapper.toListDto(leilaoService.findAll()));
   }
 
-  @PutMapping("/{id}")
+  @PutMapping("{id}")
   public ResponseEntity<LeilaoResponseDto> update(@PathVariable Long id, @RequestBody LeilaoForm createDto) {
-    try {
+    if (id == null || id <= 0) {
+      return ResponseEntity.notFound().build();
+    }
+
+    if (leilaoService.isExisteId(id)) {
       return ResponseEntity.ok(LeilaoMapper.toDto(leilaoService.update(id, createDto)));
 
-    } catch (Exception e) {
+    } else {
       return ResponseEntity.notFound().build();
     }
   }
@@ -66,16 +74,9 @@ public class LeilaoController {
   public ResponseEntity<Void> excluir(@PathVariable("id") Long id) {
 
     if (leilaoService.isExisteId(id)) {
-
-      try {
-        leilaoService.delete(id);
-        return ResponseEntity.ok().build();
-
-      } catch (Exception e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-      }
-    } else {
-      return ResponseEntity.notFound().build();
+      leilaoService.delete(id);
+      return ResponseEntity.ok().build();
     }
+    return ResponseEntity.notFound().build();
   }
 }
