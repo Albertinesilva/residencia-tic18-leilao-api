@@ -3,6 +3,7 @@ package com.residenciatic18.apileilao.services;
 import java.util.List;
 
 import com.residenciatic18.apileilao.entities.Lance;
+import com.residenciatic18.apileilao.entities.Leilao;
 import com.residenciatic18.apileilao.web.dto.LanceResponseDto;
 import com.residenciatic18.apileilao.web.dto.form.LanceForm;
 
@@ -27,4 +28,5 @@ public interface LanceService {
   Boolean isExisteId(Long id);
 
   Lance findMaiorLancePorLeilaoId(Long leilaoId);
+
 }

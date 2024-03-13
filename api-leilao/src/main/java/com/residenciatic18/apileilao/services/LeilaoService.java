@@ -1,6 +1,7 @@
 package com.residenciatic18.apileilao.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.residenciatic18.apileilao.entities.Leilao;
 import com.residenciatic18.apileilao.web.dto.LeilaoResponseDto;
@@ -21,4 +22,6 @@ public interface LeilaoService {
   void delete(Long id);
 
   Boolean isExisteId(Long id);
+
+  Optional<Leilao> vencedorDoLeilaoPorId(Long leilaoId);
 }

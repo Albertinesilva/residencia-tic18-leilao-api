@@ -40,9 +40,6 @@ public class LeilaoController {
   @Autowired
   private LanceService lanceService;
 
-  @Autowired
-  private LeilaoRepository leilaoRepository;
-
   @PostMapping("create")
   public ResponseEntity<LeilaoResponseDto> create(@RequestBody LeilaoForm createDto) {
     try {
@@ -113,7 +110,7 @@ public class LeilaoController {
     }
 
     // Chamar o método do repositório para buscar o leilão com o maior lance
-    Optional<Leilao> optionalLeilao = leilaoRepository.findLeilaoWithMaiorLanceAndConcorrenteById(id);
+    Optional<Leilao> optionalLeilao = leilaoService.vencedorDoLeilaoPorId(id);
     if (optionalLeilao.isEmpty()) {
       // Se não houver leilão com o ID fornecido, retornar 404 Not Found
       return ResponseEntity.notFound().build();

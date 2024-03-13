@@ -2,6 +2,7 @@ package com.residenciatic18.apileilao.services;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -81,5 +82,11 @@ public class LeilaoServiceImpl implements LeilaoService {
     leilao.setLeilaoStatus(leilaoForm.getLeilaoStatus());
     return salvar(leilao);
   }
-  
+
+  @Override
+  public Optional<Leilao> vencedorDoLeilaoPorId(Long leilaoId) {
+
+    return leilaoRepository.findLeilaoWithMaiorLanceAndConcorrenteById(leilaoId);
+  }
+
 }
