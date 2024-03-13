@@ -49,7 +49,7 @@ public class LanceController {
 
     // Verificar se o leilão está fechado
     Leilao leilao = leilaoService.buscarPorId(createDto.getLeilaoId());
-    if (leilao.getOrderStatus().equals(leilao.getOrderStatus().FECHADO)) {
+    if (leilao.getLeilaoStatus().equals(leilao.getLeilaoStatus().FECHADO)) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
@@ -109,7 +109,7 @@ public class LanceController {
 
     // Verificar se o leilão está fechado
     Leilao leilao = leilaoService.buscarPorId(createDto.getLeilaoId());
-    if (leilao.getOrderStatus().equals(leilao.getOrderStatus().FECHADO)) {
+    if (leilao.getLeilaoStatus().equals(leilao.getLeilaoStatus().FECHADO)) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
@@ -137,7 +137,7 @@ public class LanceController {
     }
 
     Leilao leilao = leilaoService.buscarPorId(id);
-    if (leilao.getOrderStatus().equals(leilao.getOrderStatus().FECHADO)) {
+    if (leilao.getLeilaoStatus().equals(leilao.getLeilaoStatus().FECHADO)) {
       return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 

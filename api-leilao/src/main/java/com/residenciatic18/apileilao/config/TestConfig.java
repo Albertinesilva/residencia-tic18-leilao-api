@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Profile;
 import com.residenciatic18.apileilao.entities.Concorrente;
 import com.residenciatic18.apileilao.entities.Lance;
 import com.residenciatic18.apileilao.entities.Leilao;
-import com.residenciatic18.apileilao.enums.LeilaoStatus;
+import com.residenciatic18.apileilao.entities.enums.LeilaoStatus;
 import com.residenciatic18.apileilao.repositories.ConcorrenteRepository;
 import com.residenciatic18.apileilao.repositories.LanceRepository;
 import com.residenciatic18.apileilao.repositories.LeilaoRepository;

@@ -25,4 +25,6 @@ public interface LanceService {
   void delete(Long id);
 
   Boolean isExisteId(Long id);
+
+  Lance findMaiorLancePorLeilaoId(Long leilaoId);
 }

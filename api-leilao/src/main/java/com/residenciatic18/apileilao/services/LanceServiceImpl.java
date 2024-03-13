@@ -126,4 +126,15 @@ public class LanceServiceImpl implements LanceService {
     }
   }
 
+  @Override
+  public Lance findMaiorLancePorLeilaoId(Long leilaoId) {
+    Lance lance = buscarPorId(leilaoId);
+
+    if (lance.getValor() == lanceRepository.findAll().stream().mapToDouble(Lance::getValor).max().getAsDouble()) {
+      return lance;
+    } else {
+      return null;
+    }
+  }
+
 }

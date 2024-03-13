@@ -1,4 +1,4 @@
-package com.residenciatic18.apileilao.enums;
+package com.residenciatic18.apileilao.entities.enums;
 
 public enum LeilaoStatus {
 
