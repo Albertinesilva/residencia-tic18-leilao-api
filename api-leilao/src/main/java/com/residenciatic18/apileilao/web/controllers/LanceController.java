@@ -27,7 +27,7 @@ import com.residenciatic18.apileilao.web.dto.form.LanceForm;
 import com.residenciatic18.apileilao.web.dto.mapper.LanceMapper;
 
 @RestController
-@RequestMapping("/lance")
+@RequestMapping("/lance/")
 public class LanceController {
 
   @Autowired
@@ -39,39 +39,37 @@ public class LanceController {
   @Autowired
   private LeilaoService leilaoService;
 
-  @SuppressWarnings("static-access")
-  @PostMapping("/create")
+  // @SuppressWarnings("static-access")
+  @PostMapping("create")
   public ResponseEntity<LanceResponseDto> create(@RequestBody LanceForm createDto) {
-    // Verificar se o ID do Concorrente existe
-    Concorrente concorrente = concorrenteService.buscarPorId(createDto.getConcorrenteId());
-    if (concorrente == null) {
-      return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-    }
-
-    // Verificar se o ID do Leilão existe e se o Leilão está aberto
-    Leilao leilao = leilaoService.buscarPorId(createDto.getLeilaoId());
-    if (leilao == null) {
+    // Verificar se o leilão existe
+    if (!leilaoService.isExisteId(createDto.getLeilaoId())) {
       return ResponseEntity.badRequest().build();
     }
+
+    // Verificar se o leilão está fechado
+    Leilao leilao = leilaoService.buscarPorId(createDto.getLeilaoId());
     if (leilao.getOrderStatus().equals(leilao.getOrderStatus().FECHADO)) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
-    // Salvar o lance e retornar a resposta com o URI do recurso criado
+    // Verificar se o concorrente existe
+    if (!concorrenteService.isExisteId(createDto.getConcorrenteId())) {
+      return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+    }
+
+    // Salvar o lance
     Lance obj = lanceService.salvar(LanceMapper.toLance(createDto));
     URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
     return ResponseEntity.created(uri).body(LanceMapper.toDto(obj));
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<List<LanceResponseDto>> getById(@PathVariable(required = false) Long id) {
-    List<LanceResponseDto> lance = lanceService.findById(id);
-
-    if (!lance.isEmpty()) {
-      return ResponseEntity.ok().body(lance);
-    } else {
-      return ResponseEntity.notFound().build();
+  public ResponseEntity<List<LanceResponseDto>> getById(@PathVariable Long id) {
+    if (lanceService.isExisteId(id)) {
+      return ResponseEntity.ok().body(lanceService.findById(id));
     }
+    return ResponseEntity.notFound().build();
   }
 
   @GetMapping("/")
@@ -103,28 +101,49 @@ public class LanceController {
 
   @PutMapping("/{id}")
   public ResponseEntity<LanceResponseDto> update(@PathVariable Long id, @RequestBody LanceForm createDto) {
-    try {
-      return ResponseEntity.ok(LanceMapper.toDto(lanceService.update(id, createDto)));
 
-    } catch (Exception e) {
-      return ResponseEntity.notFound().build();
+    // Verificar se o leilão existe
+    if (!leilaoService.isExisteId(createDto.getLeilaoId())) {
+      return ResponseEntity.badRequest().build();
     }
+
+    // Verificar se o leilão está fechado
+    Leilao leilao = leilaoService.buscarPorId(createDto.getLeilaoId());
+    if (leilao.getOrderStatus().equals(leilao.getOrderStatus().FECHADO)) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
+    // Verificar se o concorrente existe
+    if (!concorrenteService.isExisteId(createDto.getConcorrenteId())) {
+      return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+    }
+    return ResponseEntity.ok(LanceMapper.toDto(lanceService.update(id, createDto)));
   }
 
   @DeleteMapping("{id}")
   public ResponseEntity<Void> excluir(@PathVariable("id") Long id) {
 
-    if (lanceService.isExisteId(id)) {
-
-      try {
-        lanceService.delete(id);
-        return ResponseEntity.ok().build();
-
-      } catch (Exception e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-      }
-    } else {
+    if (id == null || id <= 0) {
       return ResponseEntity.notFound().build();
     }
+
+    if (!concorrenteService.isExisteId(id)) {
+      return ResponseEntity.notFound().build();
+    }
+
+    Concorrente concorrente = concorrenteService.buscarPorId(id);
+    if (concorrente == null) {
+      return ResponseEntity.notFound().build();
+    }
+
+    Leilao leilao = leilaoService.buscarPorId(id);
+    if (leilao.getOrderStatus().equals(leilao.getOrderStatus().FECHADO)) {
+      return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+    }
+
+    // Excluir o lance
+    lanceService.delete(id);
+    return ResponseEntity.ok().build();
   }
+
 }
