@@ -22,8 +22,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.residenciatic18.apileilao.entities.Concorrente;
 import com.residenciatic18.apileilao.entities.Lance;
 import com.residenciatic18.apileilao.entities.Leilao;
-import com.residenciatic18.apileilao.repositories.LeilaoRepository;
-import com.residenciatic18.apileilao.services.LanceService;
 import com.residenciatic18.apileilao.services.LeilaoService;
 import com.residenciatic18.apileilao.web.dto.LeilaoResponseDto;
 import com.residenciatic18.apileilao.web.dto.form.LeilaoForm;
@@ -36,9 +34,6 @@ public class LeilaoController {
 
   @Autowired
   private LeilaoService leilaoService;
-
-  @Autowired
-  private LanceService lanceService;
 
   @PostMapping("create")
   public ResponseEntity<LeilaoResponseDto> create(@RequestBody LeilaoForm createDto) {
@@ -91,6 +86,7 @@ public class LeilaoController {
     return ResponseEntity.notFound().build();
   }
 
+  @SuppressWarnings("static-access")
   @GetMapping("vencedor_leilao/{id}")
   public ResponseEntity<Map<String, Object>> vencedorDoLeilao(@PathVariable Long id) {
 
