@@ -124,8 +124,7 @@ public class LeilaoController {
         .map(Lance::getConcorrente)
         .orElse(null); // Retornar null se não houver concorrente
 
-    // Criar um objeto para incluir os dados do leilão, do maior lance e do
-    // concorrente
+    // Criar um objeto para incluir os dados do leilão, do maior lance e do concorrente
     Map<String, Object> response = new HashMap<>();
     response.put("leilao", LeilaoMapper.toDto(leilaoComMaiorLance));
     response.put("maiorLance", maiorLanceValor);
