@@ -9,7 +9,7 @@ import com.residenciatic18.apileilao.web.dto.form.LeilaoForm;
 
 public interface LeilaoService {
 
-  List<LeilaoResponseDto> findById(Long id);
+  List<LeilaoResponseDto> buscarDtosPorIdOuTodos(Long id);
 
   List<Leilao> findAll();
 
@@ -21,7 +21,7 @@ public interface LeilaoService {
 
   void delete(Long id);
 
-  Boolean isExisteId(Long id);
+  boolean isExisteId(Long id);
 
   Optional<Leilao> vencedorDoLeilaoPorId(Long leilaoId);
 }

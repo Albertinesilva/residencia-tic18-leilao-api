@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.residenciatic18.apileilao.entities.Leilao;
+import com.residenciatic18.apileilao.repositories.LanceRepository;
 import com.residenciatic18.apileilao.repositories.LeilaoRepository;
 import com.residenciatic18.apileilao.web.dto.LeilaoResponseDto;
 import com.residenciatic18.apileilao.web.dto.form.LeilaoForm;
@@ -21,39 +22,42 @@ public class LeilaoServiceImpl implements LeilaoService {
   @Autowired
   private LeilaoRepository leilaoRepository;
 
-  @SuppressWarnings("null")
+  @Autowired
+  private LanceRepository lanceRepository;
+
   @Override
-  @Transactional
   public Leilao salvar(Leilao leilao) {
     return leilaoRepository.save(leilao);
   }
 
-  @SuppressWarnings("null")
   @Override
+  @Transactional(readOnly = true)
   public Leilao buscarPorId(Long id) {
     return leilaoRepository.findById(id)
         .orElseThrow(() -> new IllegalArgumentException("Id Inválido para o leilao:" + id));
   }
 
-  @SuppressWarnings("null")
   @Override
   public void delete(Long id) {
-    leilaoRepository.deleteById(id);
+    // Verificar se o leilão existe
+    Leilao leilao = leilaoRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Leilão não encontrado"));
+
+    // Se não estiver usando cascata, você pode excluir os lances manualmente
+    lanceRepository.deleteByLeilao(leilao);
+
+    // Agora excluir o leilão
+    leilaoRepository.delete(leilao);
   }
 
-  @SuppressWarnings("null")
   @Override
-  public Boolean isExisteId(Long id) {
-    if (leilaoRepository.existsById(id)) {
-      return true;
-    } else {
-      return false;
-    }
+  public boolean isExisteId(Long id) {
+    return leilaoRepository.existsById(id);
   }
 
   @Override
   @Transactional(readOnly = true)
-  public List<LeilaoResponseDto> findById(Long id) {
+  public List<LeilaoResponseDto> buscarDtosPorIdOuTodos(Long id) {
 
     if (id == null) {
       return LeilaoMapper.toListDto(leilaoRepository.findAll());
@@ -70,6 +74,8 @@ public class LeilaoServiceImpl implements LeilaoService {
     }
   }
 
+  @Override
+  @Transactional(readOnly = true)
   public List<Leilao> findAll() {
     return leilaoRepository.findAll();
   }
@@ -77,15 +83,15 @@ public class LeilaoServiceImpl implements LeilaoService {
   @Override
   public Leilao update(Long id, LeilaoForm leilaoForm) {
     Leilao leilao = buscarPorId(id);
-    leilao.setDescricrao(leilaoForm.getDescricrao());
+    leilao.setDescricao(leilaoForm.getDescricao());
     leilao.setValorMinimo(leilaoForm.getValorMinimo());
     leilao.setLeilaoStatus(leilaoForm.getLeilaoStatus());
     return salvar(leilao);
   }
 
   @Override
+  @Transactional(readOnly = true)
   public Optional<Leilao> vencedorDoLeilaoPorId(Long leilaoId) {
-
     return leilaoRepository.findLeilaoWithMaiorLanceAndConcorrenteById(leilaoId);
   }
 

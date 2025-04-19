@@ -7,14 +7,16 @@ import lombok.*;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class LeilaoForm {
 
-  private String descricrao;
+  private String descricao;
   private Double valorMinimo;
-  private Integer leilaoStatus;
+  private String leilaoStatus;
 
   public LeilaoStatus getLeilaoStatus() {
-    return LeilaoStatus.valueOf(leilaoStatus);
+    return LeilaoStatus.fromString(leilaoStatus);
   }
 
   public void setLeilaoStatus(LeilaoStatus leilaoStatus) {

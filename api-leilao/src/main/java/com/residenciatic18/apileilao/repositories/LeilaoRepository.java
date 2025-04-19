@@ -16,8 +16,4 @@ public interface LeilaoRepository extends JpaRepository<Leilao, Long> {
       + "WHERE l.id = :leilaoId "
       + "AND tb_lance.valor = (SELECT MAX(l.valor) FROM tb_lance l WHERE l.leilao.id = :leilaoId)")
   Optional<Leilao> findLeilaoWithMaiorLanceAndConcorrenteById(@Param("leilaoId") Long leilaoId);
-
-  // @Query("SELECT l FROM tb_leilao l WHERE l.id = :id")
-  // Optional<Leilao> findLeilaoWithMaiorLanceAndConcorrenteById(@Param("id") Long
-  // id);
 }

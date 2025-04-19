@@ -51,44 +51,42 @@ public class LeilaoController {
   public ResponseEntity<List<LeilaoResponseDto>> getById(@PathVariable Long id) {
 
     if (leilaoService.isExisteId(id)) {
-      return ResponseEntity.ok().body(leilaoService.findById(id));
+      return ResponseEntity.ok().body(leilaoService.buscarDtosPorIdOuTodos(id));
     } else {
       return ResponseEntity.notFound().build();
     }
   }
 
   @GetMapping
-  public ResponseEntity<List<LeilaoResponseDto>> buscarTodos() {
+  public ResponseEntity<List<LeilaoResponseDto>> searchAll() {
     return ResponseEntity.ok(LeilaoMapper.toListDto(leilaoService.findAll()));
   }
 
   @PutMapping("{id}")
-  public ResponseEntity<LeilaoResponseDto> update(@PathVariable Long id, @RequestBody LeilaoForm createDto) {
-    if (id == null || id <= 0) {
+  public ResponseEntity<LeilaoResponseDto> update(@PathVariable Long id, @RequestBody LeilaoForm leilaoForm) {
+    if (id == null || id <= 0 || !leilaoService.isExisteId(id)) {
       return ResponseEntity.notFound().build();
     }
 
-    if (leilaoService.isExisteId(id)) {
-      return ResponseEntity.ok(LeilaoMapper.toDto(leilaoService.update(id, createDto)));
-
-    } else {
-      return ResponseEntity.notFound().build();
-    }
+    Leilao leilaoAtualizado = leilaoService.update(id, leilaoForm);
+    LeilaoResponseDto dto = LeilaoMapper.toDto(leilaoAtualizado);
+    return ResponseEntity.ok(dto);
   }
 
   @DeleteMapping("{id}")
-  public ResponseEntity<Void> excluir(@PathVariable("id") Long id) {
+  public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
 
     if (leilaoService.isExisteId(id)) {
       leilaoService.delete(id);
-      return ResponseEntity.ok().build();
+      return ResponseEntity.noContent().build();
     }
+
     return ResponseEntity.notFound().build();
   }
 
   @SuppressWarnings("static-access")
   @GetMapping("vencedor_leilao/{id}")
-  public ResponseEntity<Map<String, Object>> vencedorDoLeilao(@PathVariable Long id) {
+  public ResponseEntity<Map<String, Object>> AuctionWinner(@PathVariable Long id) {
 
     if (id == null || id <= 0) {
       return ResponseEntity.badRequest().build();
@@ -124,7 +122,8 @@ public class LeilaoController {
         .map(Lance::getConcorrente)
         .orElse(null); // Retornar null se não houver concorrente
 
-    // Criar um objeto para incluir os dados do leilão, do maior lance e do concorrente
+    // Criar um objeto para incluir os dados do leilão, do maior lance e do
+    // concorrente
     Map<String, Object> response = new HashMap<>();
     response.put("leilao", LeilaoMapper.toDto(leilaoComMaiorLance));
     response.put("maiorLance", maiorLanceValor);
@@ -132,6 +131,16 @@ public class LeilaoController {
 
     // Retornar o objeto no corpo da resposta com status 200 OK
     return ResponseEntity.ok(response);
+  }
+
+  @PutMapping
+  public ResponseEntity<Void> handleMissingId() {
+    return ResponseEntity.notFound().build();
+  }
+
+  @DeleteMapping
+  public ResponseEntity<Void> deleteNoId() {
+    return ResponseEntity.notFound().build();
   }
 
 }

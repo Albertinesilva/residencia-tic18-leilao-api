@@ -1,25 +1,31 @@
 package com.residenciatic18.apileilao.entities.enums;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+@JsonDeserialize(using = LeilaoStatusDeserializer.class)
 public enum LeilaoStatus {
 
-  ABERTO(1), FECHADO(2);
+  ABERTO("1"), FECHADO("2");
 
-  private int code;
+  private String code;
 
-  private LeilaoStatus(int code) {
+  private LeilaoStatus(String code) {
     this.code = code;
   }
 
-  public int getCode() {
+  public String getCode() {
     return code;
   }
 
-  public static LeilaoStatus valueOf(int code) {
-    for (LeilaoStatus value : LeilaoStatus.values()) {
-      if (value.getCode() == code) {
-        return value;
+  @JsonCreator
+  public static LeilaoStatus fromString(String code) {
+    for (LeilaoStatus leilaoStatus : LeilaoStatus.values()) {
+      if (leilaoStatus.code.equals(code)) {
+        return leilaoStatus;
       }
     }
     throw new IllegalArgumentException("Invalid LeilaoStatus code");
   }
+
 }

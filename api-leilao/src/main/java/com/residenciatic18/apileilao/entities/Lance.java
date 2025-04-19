@@ -1,5 +1,6 @@
 package com.residenciatic18.apileilao.entities;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -15,7 +16,7 @@ import lombok.Setter;
 @Entity(name = "tb_lance")
 public class Lance extends AbstractEntity {
 
-  @ManyToOne
+  @ManyToOne(cascade = CascadeType.REMOVE)
   @JoinColumn(name = "leilao_id")
   private Leilao leilao;
 

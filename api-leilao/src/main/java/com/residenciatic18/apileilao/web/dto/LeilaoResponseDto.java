@@ -16,17 +16,17 @@ public class LeilaoResponseDto extends AbstractEntity {
   private Long id;
   private String descricrao;
   private Double valorMinimo;
-  private Integer leilaoStatus;
+  private String leilaoStatus;
 
   public LeilaoResponseDto(Leilao leilao, LeilaoStatus leilaoStatus) {
     setId(leilao.getId());
-    this.descricrao = leilao.getDescricrao();
+    this.descricrao = leilao.getDescricao();
     this.valorMinimo = leilao.getValorMinimo();
     setLeilaoStatus(leilaoStatus);
   }
 
   public LeilaoStatus getLeilaoStatus() {
-    return LeilaoStatus.valueOf(leilaoStatus);
+    return LeilaoStatus.fromString(leilaoStatus);
   }
 
   public void setLeilaoStatus(LeilaoStatus leilaoStatus) {

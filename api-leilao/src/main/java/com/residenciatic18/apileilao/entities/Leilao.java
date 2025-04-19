@@ -17,9 +17,9 @@ import lombok.Setter;
 @Entity(name = "tb_leilao")
 public class Leilao extends AbstractEntity {
 
-  private String descricrao;
+  private String descricao;
   private Double valorMinimo;
-  private Integer leilaoStatus;
+  private String leilaoStatus;
 
   @OneToMany(mappedBy = "leilao")
   private List<Lance> lances = new ArrayList<>();
@@ -29,13 +29,13 @@ public class Leilao extends AbstractEntity {
   }
 
   public Leilao(String descricrao, Double valorMinimo, LeilaoStatus leilaoStatus) {
-    this.descricrao = descricrao;
+    this.descricao = descricrao;
     this.valorMinimo = valorMinimo;
     setLeilaoStatus(leilaoStatus);
   }
 
   public LeilaoStatus getLeilaoStatus() {
-    return LeilaoStatus.valueOf(leilaoStatus);
+    return LeilaoStatus.fromString(leilaoStatus);
   }
 
   public void setLeilaoStatus(LeilaoStatus leilaoStatus) {
