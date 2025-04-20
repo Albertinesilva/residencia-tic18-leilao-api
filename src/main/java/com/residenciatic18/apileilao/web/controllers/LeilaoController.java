@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.residenciatic18.apileilao.entities.Leilao;
@@ -46,12 +47,7 @@ public class LeilaoController {
 
   @GetMapping("{id}")
   public ResponseEntity<List<LeilaoResponseDto>> getById(@PathVariable Long id) {
-
-    if (leilaoService.isExisteId(id)) {
-      return ResponseEntity.ok().body(leilaoService.searchDataByIDorAll(id));
-    } else {
-      return ResponseEntity.notFound().build();
-    }
+    return ResponseEntity.ok(leilaoService.findByIdOrThrow(id));
   }
 
   @GetMapping
@@ -61,23 +57,19 @@ public class LeilaoController {
 
   @PutMapping("{id}")
   public ResponseEntity<LeilaoResponseDto> update(@PathVariable Long id, @RequestBody LeilaoForm leilaoForm) {
-    if (id == null || id <= 0 || !leilaoService.isExisteId(id)) {
-      return ResponseEntity.notFound().build();
-    }
-
-    Leilao leilaoAtualizado = leilaoService.update(id, leilaoForm);
+    Leilao leilaoAtualizado = leilaoService.updateOrThrow(id, leilaoForm);
     LeilaoResponseDto dto = LeilaoMapper.toDto(leilaoAtualizado);
     return ResponseEntity.ok(dto);
   }
 
   @DeleteMapping("{id}")
   public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
-
-    if (leilaoService.isExisteId(id)) {
-      leilaoService.delete(id);
-      return ResponseEntity.noContent().build();
+    try {
+      leilaoService.deleteOrThrow(id);
+      return ResponseEntity.noContent().build(); // 204
+    } catch (ResponseStatusException e) {
+      return ResponseEntity.notFound().build(); // 404
     }
-    return ResponseEntity.notFound().build();
   }
 
   @GetMapping("vencedor_leilao/{id}")

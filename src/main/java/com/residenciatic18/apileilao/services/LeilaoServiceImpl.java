@@ -7,8 +7,10 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.residenciatic18.apileilao.entities.Concorrente;
 import com.residenciatic18.apileilao.entities.Lance;
@@ -134,6 +136,33 @@ public class LeilaoServiceImpl implements LeilaoService {
   @Transactional(readOnly = true)
   public Optional<Leilao> winnerOfAuctionById(Long leilaoId) {
     return leilaoRepository.findLeilaoWithMaiorLanceAndConcorrenteById(leilaoId);
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public List<LeilaoResponseDto> findByIdOrThrow(Long id) {
+    if (!isExisteId(id)) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Auction not found");
+    }
+    return searchDataByIDorAll(id);
+  }
+
+  @Override
+  @Transactional(readOnly = false)
+  public Leilao updateOrThrow(Long id, LeilaoForm leilaoForm) {
+    if (!isExisteId(id)) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Auction not found");
+    }
+    return update(id, leilaoForm); // assuming update() performs the update
+  }
+
+  @Override
+  @Transactional(readOnly = false)
+  public void deleteOrThrow(Long id) {
+    if (!isExisteId(id)) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Auction not found");
+    }
+    delete(id); // assuming delete() performs the actual deletion
   }
 
   @Override

@@ -1,7 +1,9 @@
 package com.residenciatic18.apileilao.entities.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+@JsonDeserialize(using = LeilaoStatusDeserializer.class)
 public enum LeilaoStatus {
 
   ABERTO("1"), FECHADO("2");

@@ -25,6 +25,12 @@ public interface LeilaoService {
   boolean isExisteId(Long id);
 
   Optional<Leilao> winnerOfAuctionById(Long leilaoId);
-  
+
   Map<String, Object> obterDadosDoVencedor(Long leilaoId);
+
+  List<LeilaoResponseDto> findByIdOrThrow(Long id);
+
+  Leilao updateOrThrow(Long id, LeilaoForm leilaoForm);
+
+  void deleteOrThrow(Long id);
 }
