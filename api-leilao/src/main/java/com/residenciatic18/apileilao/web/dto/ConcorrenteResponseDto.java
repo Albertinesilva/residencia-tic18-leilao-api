@@ -1,6 +1,5 @@
 package com.residenciatic18.apileilao.web.dto;
 
-import com.residenciatic18.apileilao.entities.AbstractEntity;
 import com.residenciatic18.apileilao.entities.Concorrente;
 
 import lombok.*;
@@ -10,13 +9,13 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class ConcorrenteResponseDto extends AbstractEntity {
+public class ConcorrenteResponseDto {
 
-  private Long id;
+  // private Long id;
   private String nome;
 
   public ConcorrenteResponseDto(Concorrente concorrente) {
-    setId(concorrente.getId());
+    // setId(concorrente.getId());
     this.nome = concorrente.getNome();
   }
 }

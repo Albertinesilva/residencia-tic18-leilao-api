@@ -28,7 +28,6 @@ public class TestConfig implements CommandLineRunner {
 	@Autowired
 	private LanceRepository lanceRepository;
 
-	@SuppressWarnings("null")
 	@Override
 	public void run(String... args) throws Exception {
 

@@ -20,7 +20,7 @@ public class ConcorrenteMapper {
     PropertyMap<Concorrente, ConcorrenteResponseDto> props = new PropertyMap<Concorrente, ConcorrenteResponseDto>() {
       @Override
       protected void configure() {
-        map().setId(source.getId());
+        // map().setId(source.getId());
         map().setNome(source.getNome());
       }
     };

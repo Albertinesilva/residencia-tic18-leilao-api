@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
@@ -23,7 +24,7 @@ public class Concorrente extends AbstractEntity {
   private String cpf;
 
   @JsonIgnore
-  @OneToMany(mappedBy = "concorrente")
+  @OneToMany(mappedBy = "concorrente", cascade = CascadeType.REMOVE)
   private List<Lance> lances = new ArrayList<>();
 
   public Concorrente(Long id) {

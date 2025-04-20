@@ -10,7 +10,7 @@ public interface ConcorrenteService {
 
   Concorrente salvar(Concorrente aeroporto);
 
-  List<ConcorrenteResponseDto> findById(Long id);
+  List<ConcorrenteResponseDto> buscarDtosPorIdOuTodos(Long id);
 
   List<Concorrente> findAll();
 

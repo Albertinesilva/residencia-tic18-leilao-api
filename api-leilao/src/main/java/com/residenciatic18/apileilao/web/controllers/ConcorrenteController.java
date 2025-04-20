@@ -44,7 +44,7 @@ public class ConcorrenteController {
   public ResponseEntity<List<ConcorrenteResponseDto>> getById(@PathVariable Long id) {
 
     if (concorrenteService.isExisteId(id)) {
-      return ResponseEntity.ok().body(concorrenteService.findById(id));
+      return ResponseEntity.ok().body(concorrenteService.buscarDtosPorIdOuTodos(id));
 
     } else {
       return ResponseEntity.notFound().build();
@@ -52,7 +52,7 @@ public class ConcorrenteController {
   }
 
   @GetMapping
-  public ResponseEntity<List<ConcorrenteResponseDto>> buscarTodos() {
+  public ResponseEntity<List<ConcorrenteResponseDto>> searchAll() {
     return ResponseEntity.ok(ConcorrenteMapper.toListDto(concorrenteService.findAll()));
   }
 
@@ -66,12 +66,22 @@ public class ConcorrenteController {
   }
 
   @DeleteMapping("{id}")
-  public ResponseEntity<Void> excluir(@PathVariable("id") Long id) {
+  public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
 
     if (concorrenteService.isExisteId(id)) {
       concorrenteService.delete(id);
       return ResponseEntity.ok().build();
     }
+    return ResponseEntity.notFound().build();
+  }
+
+  @PutMapping
+  public ResponseEntity<Void> handleMissingId() {
+    return ResponseEntity.notFound().build();
+  }
+
+  @DeleteMapping
+  public ResponseEntity<Void> deleteNoId() {
     return ResponseEntity.notFound().build();
   }
 }

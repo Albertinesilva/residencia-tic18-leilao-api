@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.residenciatic18.apileilao.entities.enums.LeilaoStatus;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
@@ -21,7 +22,7 @@ public class Leilao extends AbstractEntity {
   private Double valorMinimo;
   private String leilaoStatus;
 
-  @OneToMany(mappedBy = "leilao")
+  @OneToMany(mappedBy = "leilao", cascade = CascadeType.REMOVE)
   private List<Lance> lances = new ArrayList<>();
 
   public Leilao(Long id) {

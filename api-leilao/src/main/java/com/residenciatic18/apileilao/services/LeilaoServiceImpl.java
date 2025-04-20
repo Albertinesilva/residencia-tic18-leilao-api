@@ -38,24 +38,6 @@ public class LeilaoServiceImpl implements LeilaoService {
   }
 
   @Override
-  public void delete(Long id) {
-    // Verificar se o leilão existe
-    Leilao leilao = leilaoRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("Leilão não encontrado"));
-
-    // Se não estiver usando cascata, você pode excluir os lances manualmente
-    lanceRepository.deleteByLeilao(leilao);
-
-    // Agora excluir o leilão
-    leilaoRepository.delete(leilao);
-  }
-
-  @Override
-  public boolean isExisteId(Long id) {
-    return leilaoRepository.existsById(id);
-  }
-
-  @Override
   @Transactional(readOnly = true)
   public List<LeilaoResponseDto> buscarDtosPorIdOuTodos(Long id) {
 
@@ -90,9 +72,27 @@ public class LeilaoServiceImpl implements LeilaoService {
   }
 
   @Override
+  public void delete(Long id) {
+    // Verificar se o leilão existe
+    Leilao leilao = leilaoRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Leilão não encontrado"));
+
+    // Se não estiver usando cascata, você pode excluir os lances manualmente
+    lanceRepository.deleteByLeilao(leilao);
+
+    // Agora excluir o leilão
+    leilaoRepository.delete(leilao);
+  }
+
+  @Override
   @Transactional(readOnly = true)
   public Optional<Leilao> vencedorDoLeilaoPorId(Long leilaoId) {
     return leilaoRepository.findLeilaoWithMaiorLanceAndConcorrenteById(leilaoId);
+  }
+
+  @Override
+  public boolean isExisteId(Long id) {
+    return leilaoRepository.existsById(id);
   }
 
 }
