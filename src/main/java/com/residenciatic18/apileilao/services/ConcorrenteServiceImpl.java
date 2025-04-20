@@ -5,8 +5,10 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.residenciatic18.apileilao.entities.Concorrente;
 import com.residenciatic18.apileilao.repositories.ConcorrenteRepository;
@@ -80,6 +82,35 @@ public class ConcorrenteServiceImpl implements ConcorrenteService {
 
     // Agora pode excluir o concorrente
     concorrenteRepository.delete(concorrente);
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public List<ConcorrenteResponseDto> findByIdOrThrow(Long id) {
+    if (!isExisteId(id)) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Competitor not found");
+    }
+    return searchDataByIDorAll(id);
+  }
+
+  @Override
+  @Transactional(readOnly = false)
+  public ConcorrenteResponseDto updateOrThrow(Long id, ConcorrenteForm form) {
+    if (!isExisteId(id)) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Competitor not found");
+    }
+
+    Concorrente updated = update(id, form);
+    return ConcorrenteMapper.toDto(updated);
+  }
+
+  @Override
+  @Transactional(readOnly = false)
+  public void deleteOrThrow(Long id) {
+    if (!isExisteId(id)) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Competitor not found");
+    }
+    delete(id);
   }
 
   @Override

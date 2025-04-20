@@ -42,13 +42,8 @@ public class ConcorrenteController {
 
   @GetMapping("{id}")
   public ResponseEntity<List<ConcorrenteResponseDto>> getById(@PathVariable Long id) {
-
-    if (concorrenteService.isExisteId(id)) {
-      return ResponseEntity.ok().body(concorrenteService.searchDataByIDorAll(id));
-
-    } else {
-      return ResponseEntity.notFound().build();
-    }
+    List<ConcorrenteResponseDto> concorrentes = concorrenteService.findByIdOrThrow(id);
+    return ResponseEntity.ok(concorrentes);
   }
 
   @GetMapping
@@ -57,22 +52,15 @@ public class ConcorrenteController {
   }
 
   @PutMapping("{id}")
-  public ResponseEntity<ConcorrenteResponseDto> update(@PathVariable Long id, @RequestBody ConcorrenteForm createDto) {
-
-    if (concorrenteService.isExisteId(id)) {
-      return ResponseEntity.ok(ConcorrenteMapper.toDto(concorrenteService.update(id, createDto)));
-    }
-    return ResponseEntity.notFound().build();
+  public ResponseEntity<ConcorrenteResponseDto> update(@PathVariable Long id, @RequestBody ConcorrenteForm form) {
+    ConcorrenteResponseDto updated = concorrenteService.updateOrThrow(id, form);
+    return ResponseEntity.ok(updated);
   }
 
   @DeleteMapping("{id}")
-  public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
-
-    if (concorrenteService.isExisteId(id)) {
-      concorrenteService.delete(id);
-      return ResponseEntity.ok().build();
-    }
-    return ResponseEntity.notFound().build();
+  public ResponseEntity<Void> delete(@PathVariable Long id) {
+    concorrenteService.deleteOrThrow(id);
+    return ResponseEntity.ok().build();
   }
 
   @PutMapping

@@ -21,4 +21,10 @@ public interface ConcorrenteService {
   void delete(Long id);
 
   boolean isExisteId(Long id);
+
+  List<ConcorrenteResponseDto> findByIdOrThrow(Long id);
+
+  ConcorrenteResponseDto updateOrThrow(Long id, ConcorrenteForm form);
+
+  void deleteOrThrow(Long id);
 }
