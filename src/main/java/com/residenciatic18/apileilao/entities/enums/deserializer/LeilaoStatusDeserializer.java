@@ -1,8 +1,9 @@
-package com.residenciatic18.apileilao.entities.enums;
+package com.residenciatic18.apileilao.entities.enums.deserializer;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.residenciatic18.apileilao.entities.enums.LeilaoStatus;
 
 import java.io.IOException;
 

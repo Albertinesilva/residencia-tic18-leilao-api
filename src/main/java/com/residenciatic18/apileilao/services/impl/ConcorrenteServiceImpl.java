@@ -1,4 +1,4 @@
-package com.residenciatic18.apileilao.services;
+package com.residenciatic18.apileilao.services.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.residenciatic18.apileilao.entities.Concorrente;
 import com.residenciatic18.apileilao.repositories.ConcorrenteRepository;
 import com.residenciatic18.apileilao.repositories.LanceRepository;
+import com.residenciatic18.apileilao.services.ConcorrenteService;
 import com.residenciatic18.apileilao.web.dto.form.ConcorrenteForm;
 import com.residenciatic18.apileilao.web.dto.mapper.ConcorrenteMapper;
 import com.residenciatic18.apileilao.web.dto.response.ConcorrenteResponseDto;

@@ -1,4 +1,4 @@
-package com.residenciatic18.apileilao.services;
+package com.residenciatic18.apileilao.services.impl;
 
 import java.net.URI;
 import java.util.Collections;
@@ -18,6 +18,9 @@ import com.residenciatic18.apileilao.entities.Lance;
 import com.residenciatic18.apileilao.entities.Leilao;
 import com.residenciatic18.apileilao.entities.enums.LeilaoStatus;
 import com.residenciatic18.apileilao.repositories.LanceRepository;
+import com.residenciatic18.apileilao.services.ConcorrenteService;
+import com.residenciatic18.apileilao.services.LanceService;
+import com.residenciatic18.apileilao.services.LeilaoService;
 import com.residenciatic18.apileilao.web.dto.form.LanceForm;
 import com.residenciatic18.apileilao.web.dto.mapper.ConcorrenteMapper;
 import com.residenciatic18.apileilao.web.dto.mapper.LanceMapper;

@@ -1,4 +1,4 @@
-package com.residenciatic18.apileilao.services;
+package com.residenciatic18.apileilao.services.impl;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -19,6 +19,7 @@ import com.residenciatic18.apileilao.entities.Leilao;
 import com.residenciatic18.apileilao.entities.enums.LeilaoStatus;
 import com.residenciatic18.apileilao.repositories.LanceRepository;
 import com.residenciatic18.apileilao.repositories.LeilaoRepository;
+import com.residenciatic18.apileilao.services.LeilaoService;
 import com.residenciatic18.apileilao.web.dto.form.LeilaoForm;
 import com.residenciatic18.apileilao.web.dto.mapper.ConcorrenteMapper;
 import com.residenciatic18.apileilao.web.dto.mapper.LeilaoMapper;
