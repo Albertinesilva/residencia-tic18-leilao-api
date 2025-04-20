@@ -19,10 +19,10 @@ import com.residenciatic18.apileilao.entities.Leilao;
 import com.residenciatic18.apileilao.entities.enums.LeilaoStatus;
 import com.residenciatic18.apileilao.repositories.LanceRepository;
 import com.residenciatic18.apileilao.repositories.LeilaoRepository;
-import com.residenciatic18.apileilao.web.dto.LeilaoResponseDto;
 import com.residenciatic18.apileilao.web.dto.form.LeilaoForm;
 import com.residenciatic18.apileilao.web.dto.mapper.ConcorrenteMapper;
 import com.residenciatic18.apileilao.web.dto.mapper.LeilaoMapper;
+import com.residenciatic18.apileilao.web.dto.response.LeilaoResponseDto;
 
 import jakarta.persistence.EntityNotFoundException;
 

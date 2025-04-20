@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.residenciatic18.apileilao.services.LanceService;
-import com.residenciatic18.apileilao.web.dto.ConcorrenteResponseDto;
-import com.residenciatic18.apileilao.web.dto.LanceResponseDto;
 import com.residenciatic18.apileilao.web.dto.form.LanceForm;
 import com.residenciatic18.apileilao.web.dto.mapper.LanceMapper;
+import com.residenciatic18.apileilao.web.dto.response.ConcorrenteResponseDto;
+import com.residenciatic18.apileilao.web.dto.response.LanceResponseDto;
 
 @RestController
 @RequestMapping("/lance/")

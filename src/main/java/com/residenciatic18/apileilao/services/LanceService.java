@@ -6,9 +6,9 @@ import java.util.Optional;
 import org.springframework.http.ResponseEntity;
 
 import com.residenciatic18.apileilao.entities.Lance;
-import com.residenciatic18.apileilao.web.dto.ConcorrenteResponseDto;
-import com.residenciatic18.apileilao.web.dto.LanceResponseDto;
 import com.residenciatic18.apileilao.web.dto.form.LanceForm;
+import com.residenciatic18.apileilao.web.dto.response.ConcorrenteResponseDto;
+import com.residenciatic18.apileilao.web.dto.response.LanceResponseDto;
 
 public interface LanceService {
 

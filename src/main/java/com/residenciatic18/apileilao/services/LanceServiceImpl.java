@@ -18,11 +18,11 @@ import com.residenciatic18.apileilao.entities.Lance;
 import com.residenciatic18.apileilao.entities.Leilao;
 import com.residenciatic18.apileilao.entities.enums.LeilaoStatus;
 import com.residenciatic18.apileilao.repositories.LanceRepository;
-import com.residenciatic18.apileilao.web.dto.ConcorrenteResponseDto;
-import com.residenciatic18.apileilao.web.dto.LanceResponseDto;
 import com.residenciatic18.apileilao.web.dto.form.LanceForm;
 import com.residenciatic18.apileilao.web.dto.mapper.ConcorrenteMapper;
 import com.residenciatic18.apileilao.web.dto.mapper.LanceMapper;
+import com.residenciatic18.apileilao.web.dto.response.ConcorrenteResponseDto;
+import com.residenciatic18.apileilao.web.dto.response.LanceResponseDto;
 
 @Service
 @Transactional(readOnly = false)

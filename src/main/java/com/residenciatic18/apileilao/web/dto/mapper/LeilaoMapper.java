@@ -7,8 +7,8 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 
 import com.residenciatic18.apileilao.entities.Leilao;
-import com.residenciatic18.apileilao.web.dto.LeilaoResponseDto;
 import com.residenciatic18.apileilao.web.dto.form.LeilaoForm;
+import com.residenciatic18.apileilao.web.dto.response.LeilaoResponseDto;
 
 public class LeilaoMapper {
 

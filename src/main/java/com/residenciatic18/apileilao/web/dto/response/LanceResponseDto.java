@@ -1,4 +1,4 @@
-package com.residenciatic18.apileilao.web.dto;
+package com.residenciatic18.apileilao.web.dto.response;
 
 import com.residenciatic18.apileilao.entities.AbstractEntity;
 

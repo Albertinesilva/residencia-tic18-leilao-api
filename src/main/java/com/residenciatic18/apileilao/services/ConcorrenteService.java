@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 
 import com.residenciatic18.apileilao.entities.Concorrente;
-import com.residenciatic18.apileilao.web.dto.ConcorrenteResponseDto;
 import com.residenciatic18.apileilao.web.dto.form.ConcorrenteForm;
+import com.residenciatic18.apileilao.web.dto.response.ConcorrenteResponseDto;
 
 public interface ConcorrenteService {
 

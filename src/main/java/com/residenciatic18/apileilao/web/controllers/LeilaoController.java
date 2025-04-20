@@ -20,9 +20,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.residenciatic18.apileilao.entities.Leilao;
 import com.residenciatic18.apileilao.services.LeilaoService;
-import com.residenciatic18.apileilao.web.dto.LeilaoResponseDto;
 import com.residenciatic18.apileilao.web.dto.form.LeilaoForm;
 import com.residenciatic18.apileilao.web.dto.mapper.LeilaoMapper;
+import com.residenciatic18.apileilao.web.dto.response.LeilaoResponseDto;
 
 import jakarta.persistence.EntityNotFoundException;
 

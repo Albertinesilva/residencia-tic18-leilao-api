@@ -7,8 +7,8 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 
 import com.residenciatic18.apileilao.entities.Concorrente;
-import com.residenciatic18.apileilao.web.dto.ConcorrenteResponseDto;
 import com.residenciatic18.apileilao.web.dto.form.ConcorrenteForm;
+import com.residenciatic18.apileilao.web.dto.response.ConcorrenteResponseDto;
 
 public class ConcorrenteMapper {
 

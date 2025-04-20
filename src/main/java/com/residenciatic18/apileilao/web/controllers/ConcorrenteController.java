@@ -17,9 +17,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.residenciatic18.apileilao.entities.Concorrente;
 import com.residenciatic18.apileilao.services.ConcorrenteService;
-import com.residenciatic18.apileilao.web.dto.ConcorrenteResponseDto;
 import com.residenciatic18.apileilao.web.dto.form.ConcorrenteForm;
 import com.residenciatic18.apileilao.web.dto.mapper.ConcorrenteMapper;
+import com.residenciatic18.apileilao.web.dto.response.ConcorrenteResponseDto;
 
 @RestController
 @RequestMapping("/concorrentes/")

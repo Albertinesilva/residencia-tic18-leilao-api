@@ -9,8 +9,8 @@ import org.modelmapper.PropertyMap;
 import com.residenciatic18.apileilao.entities.Concorrente;
 import com.residenciatic18.apileilao.entities.Lance;
 import com.residenciatic18.apileilao.entities.Leilao;
-import com.residenciatic18.apileilao.web.dto.LanceResponseDto;
 import com.residenciatic18.apileilao.web.dto.form.LanceForm;
+import com.residenciatic18.apileilao.web.dto.response.LanceResponseDto;
 
 public class LanceMapper {
 
