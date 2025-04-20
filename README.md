@@ -61,9 +61,7 @@ public enum LeilaoStatus {
 
 📌 Imagem abaixo representa o modelo de entidades do sistema:
 
-```markdown
 ![Diagrama UML do Leilão Secreto](leilao-secreto.png)
-```
 
 ---
 
@@ -82,7 +80,9 @@ public enum LeilaoStatus {
 | DELETE | `/leilao/{id}` | Remove um leilão             |
 
 🔹 Endpoint /leilao/
+
 🔍 GET
+
 /leilao/{id}
 📥 Retorna o DTO do leilão indicado.
 ❌ 404 se o ID for inválido.
