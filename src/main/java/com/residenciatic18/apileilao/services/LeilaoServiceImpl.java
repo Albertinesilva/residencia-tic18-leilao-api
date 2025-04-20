@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -163,6 +164,23 @@ public class LeilaoServiceImpl implements LeilaoService {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Auction not found");
     }
     delete(id); // assuming delete() performs the actual deletion
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public ResponseEntity<Void> validateAuction(Long auctionId) {
+    // Check if the auction exists
+    if (!isExisteId(auctionId)) {
+      return ResponseEntity.badRequest().build(); // Auction not found
+    }
+
+    // Check if the auction is closed
+    Leilao leilao = searchById(auctionId);
+    if (leilao.getLeilaoStatus() == LeilaoStatus.FECHADO) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); // Auction is closed
+    }
+
+    return ResponseEntity.ok().build(); // Auction is valid
   }
 
   @Override

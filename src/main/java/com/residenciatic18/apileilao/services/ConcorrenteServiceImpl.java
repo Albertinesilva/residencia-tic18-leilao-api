@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -116,6 +117,17 @@ public class ConcorrenteServiceImpl implements ConcorrenteService {
   @Override
   public boolean isExisteId(Long id) {
     return concorrenteRepository.existsById(id);
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public ResponseEntity<Void> validateBidder(Long bidderId) {
+    // Check if the bidder exists
+    if (!isExisteId(bidderId)) {
+      return ResponseEntity.status(HttpStatus.FORBIDDEN).build(); // Bidder not found
+    }
+
+    return ResponseEntity.ok().build(); // Bidder is valid
   }
 
 }

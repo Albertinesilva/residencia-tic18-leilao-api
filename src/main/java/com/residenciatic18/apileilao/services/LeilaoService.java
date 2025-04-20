@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.http.ResponseEntity;
+
 import com.residenciatic18.apileilao.entities.Leilao;
 import com.residenciatic18.apileilao.web.dto.LeilaoResponseDto;
 import com.residenciatic18.apileilao.web.dto.form.LeilaoForm;
@@ -33,4 +35,6 @@ public interface LeilaoService {
   Leilao updateOrThrow(Long id, LeilaoForm leilaoForm);
 
   void deleteOrThrow(Long id);
+
+  ResponseEntity<Void> validateAuction(Long auctionId);
 }

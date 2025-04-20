@@ -2,6 +2,8 @@ package com.residenciatic18.apileilao.services;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
+
 import com.residenciatic18.apileilao.entities.Concorrente;
 import com.residenciatic18.apileilao.web.dto.ConcorrenteResponseDto;
 import com.residenciatic18.apileilao.web.dto.form.ConcorrenteForm;
@@ -27,4 +29,6 @@ public interface ConcorrenteService {
   ConcorrenteResponseDto updateOrThrow(Long id, ConcorrenteForm form);
 
   void deleteOrThrow(Long id);
+
+  ResponseEntity<Void> validateBidder(Long bidderId);
 }
