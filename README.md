@@ -81,32 +81,47 @@ public enum LeilaoStatus {
 
 🔹 Endpoint /leilao/
 
-🔍 GET
+**🔍 GET**
 
-/leilao/{id}
-📥 Retorna o DTO do leilão indicado.
-❌ 404 se o ID for inválido.
+`/leilao/{id}`
 
-/leilao/
+  📥 Retorna o DTO do leilão indicado.
+
+❌ `404` se o ID for inválido.
+
+`/leilao/`
+
 📥 Retorna todos os leilões cadastrados.
-✅ 200 em caso de sucesso.
 
-➕ POST
+✅ `200` em caso de sucesso.
+
+**➕ POST**
+
 📤 Envia um DTO sem ID para criar um novo leilão.
-✅ 201 (Created) em sucesso.
-❌ 400 em erro.
 
-♻️ PUT
-/leilao/{id}
+✅ `201` (Created) em sucesso.
+
+❌ `400` em erro.
+
+**♻️ PUT**
+
+`/leilao/{id}`
+
 📤 Atualiza um leilão existente com base no ID.
-✅ 200 com DTO atualizado.
-❌ 404 se ID for inválido ou ausente.
 
-🗑️ DELETE
-/leilao/{id}
+✅ `200` com DTO atualizado.
+
+❌ `404` se ID for inválido ou ausente.
+
+**🗑️ DELETE**
+
+`/leilao/{id}`
+
 🧹 Remove um leilão.
-✅ 200 se bem-sucedido.
-❌ 404 se ID for inválido ou ausente.
+
+✅ `200` se bem-sucedido.
+
+❌ `404` se ID for inválido ou ausente.
 
 ---
 
@@ -121,31 +136,48 @@ public enum LeilaoStatus {
 | DELETE | `/concorrente/{id}` | Remove um concorrente             |
 
 🔹 Endpoint /concorrente/
+
 🔍 GET
-/concorrente/{id}
+
+`/concorrente/{id}`
+
 📥 Retorna apenas o nome do concorrente.
-❌ 404 se o ID for inválido.
 
-/concorrente/
+❌ `404` se o ID for inválido.
+
+`/concorrente/`
+
 📥 Retorna todos os concorrentes.
-✅ 200 em caso de sucesso.
 
-➕ POST
+✅ `200` em caso de sucesso.
+
+**➕ POST**
+
 📤 Cria um novo concorrente com DTO sem ID.
-✅ 201 (Created).
-❌ 400 em erro.
 
-♻️ PUT
-/concorrente/{id}
+✅ `201` (Created).
+
+❌ `400` em erro.
+
+**♻️ PUT**
+
+`/concorrente/{id}`
+
 📤 Atualiza concorrente por ID.
-✅ 200 com DTO atualizado.
-❌ 404 se ID for inválido ou ausente.
 
-🗑️ DELETE
-/concorrente/{id}
+✅ `200` com DTO atualizado.
+
+❌ `404` se ID for inválido ou ausente.
+
+**🗑️ DELETE**
+
+`/concorrente/{id}`
+
 🧹 Remove um concorrente.
-✅ 200 se sucesso.
-❌ 404 se ID for inválido ou ausente.
+
+✅ `200` se sucesso.
+
+❌ `404` se ID for inválido ou ausente.
 
 ---
 
@@ -162,42 +194,66 @@ public enum LeilaoStatus {
 | DELETE | `/lance/{id}`             | Remove um lance                   |
 
 🔹 Endpoint /lance/
-🔍 GET
-/lance/{id}
-📥 Retorna DTO com ID do leilão, concorrente e valor do lance.
-❌ 404 se o ID for inválido.
 
-/lance/
+**🔍 GET**
+
+`/lance/{id}`
+
+📥 Retorna DTO com ID do leilão, concorrente e valor do lance.
+
+❌ `404` se o ID for inválido.
+
+`/lance/`
+
 📥 Retorna todos os lances.
+
 📌 Com filtros:
 
-/lance/leilao={id} → Lances por leilão.
+`/lance/leilao={id}` → Lances por leilão.
 
-/lance/concorrente={id} → Lances por concorrente.
-✅ 200 ou ❌ 404.
+`/lance/concorrente={id}` → Lances por concorrente.
 
-➕ POST
+✅ `200` ou ❌ `404`.
+
+**➕ POST**
+
 📤 Cria lance com IDs de leilão, concorrente e valor (sem ID).
-✅ 201 (Created).
-❌ 403 se concorrente não existir.
-❌ 400 se leilão não existir.
-❌ 403 se leilão estiver fechado.
 
-♻️ PUT
-/lance/{id}
+✅ `201` (Created).
+
+❌ `403` se concorrente não existir.
+
+❌ `400` se leilão não existir.
+
+❌ `403` se leilão estiver fechado.
+
+**♻️ PUT**
+
+`/lance/{id}`
+
 📤 Atualiza lance por ID.
-✅ 200 com DTO atualizado.
-❌ 404 se ID inválido ou ausente.
-❌ 403 se concorrente não existir.
-❌ 400 se leilão não existir.
-❌ 403 se leilão estiver fechado.
 
-🗑️ DELETE
-/lance/{id}
+✅ `200` com DTO atualizado.
+
+❌ `404` se ID inválido ou ausente.
+
+❌ `403` se concorrente não existir.
+
+❌ `400` se leilão não existir.
+
+❌ `403` se leilão estiver fechado.
+
+**🗑️ DELETE**
+
+`/lance/{id}`
+
 🧹 Remove um lance.
-✅ 200 se sucesso.
-❌ 404 se ID inválido ou ausente.
-❌ 403 se o leilão do lance estiver fechado.
+
+✅ `200` se sucesso.
+
+❌ `404` se ID inválido ou ausente.
+
+❌ `403` se o leilão do lance estiver fechado.
 
 📌 **Regra de negócio importante:**
 
@@ -214,28 +270,28 @@ public enum LeilaoStatus {
 | ------ | ----------------------- | ------------------------------------------ |
 | GET    | `/vencedor_leilao/{id}` | Retorna o vencedor do leilão (maior lance) |
 
-🏆 Endpoint /vencedor_leilao/{id}
-🔍 GET
+🏆 Endpoint `/vencedor_leilao/{id}`
+
+**🔍 GET**
+
 📥 Retorna:
 
-Dados do leilão
-
-Valor do maior lance
-
-DTO do concorrente vencedor
-
-❌ 404 se ID for inválido
-
-❌ 400 se ID não for passado
-
-❌ 403 se leilão estiver fechado
-
-- Retorna o **concorrente vencedor** e o valor do lance.
+- Dados do leilão
+- Valor do maior lance
+- O **concorrente vencedor** e o valor do lance.
 - Apenas para leilões encerrados.
+
+- `DTO` do concorrente vencedor
+
+❌ `404` se ID for inválido
+
+❌ `400` se ID não for passado
+
+❌ `403` se leilão estiver fechado
 
 ---
 
-Conclusão
+**Conclusão**
 
 Neste projeto, foi possível aplicar com sucesso os conhecimentos adquiridos em **Java Backend** e **Spring Boot** na construção de uma API RESTful para um **leilão secreto online**. A implementação de regras de negócio, como o controle do status de leilão (ABERTO/FECHADO) e a validação de lances, foi realizada com o uso de **enumerações** e **desserialização customizada**. A integração com o **banco de dados H2** permitiu o armazenamento eficiente dos dados, enquanto a estruturação e documentação dos endpoints da API seguiram boas práticas, proporcionando uma experiência prática e profunda na criação de sistemas **RESTful**. Este projeto consolidou o aprendizado em desenvolvimento de APIs, reforçando a compreensão dos conceitos de design de API, segurança e boas práticas no backend.
 
