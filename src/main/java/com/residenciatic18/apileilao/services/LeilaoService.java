@@ -1,6 +1,7 @@
 package com.residenciatic18.apileilao.services;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import com.residenciatic18.apileilao.entities.Leilao;
@@ -9,13 +10,13 @@ import com.residenciatic18.apileilao.web.dto.form.LeilaoForm;
 
 public interface LeilaoService {
 
-  List<LeilaoResponseDto> buscarDtosPorIdOuTodos(Long id);
+  List<LeilaoResponseDto> searchDataByIDorAll(Long id);
 
   List<Leilao> findAll();
 
-  Leilao salvar(Leilao leilao);
+  Leilao save(Leilao leilao);
 
-  Leilao buscarPorId(Long id);
+  Leilao searchById(Long id);
 
   Leilao update(Long id, LeilaoForm leilaoForm);
 
@@ -23,5 +24,7 @@ public interface LeilaoService {
 
   boolean isExisteId(Long id);
 
-  Optional<Leilao> vencedorDoLeilaoPorId(Long leilaoId);
+  Optional<Leilao> winnerOfAuctionById(Long leilaoId);
+  
+  Map<String, Object> obterDadosDoVencedor(Long leilaoId);
 }

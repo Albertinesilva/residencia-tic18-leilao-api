@@ -25,26 +25,26 @@ public class ConcorrenteServiceImpl implements ConcorrenteService {
   private LanceRepository lanceRepository;
 
   @Override
-  public Concorrente salvar(Concorrente concorrente) {
+  public Concorrente save(Concorrente concorrente) {
     return concorrenteRepository.save(concorrente);
   }
 
   @Override
   @Transactional(readOnly = true)
-  public Concorrente buscarPorId(Long id) {
+  public Concorrente searchById(Long id) {
     return concorrenteRepository.findById(id)
         .orElseThrow(() -> new IllegalArgumentException("Id Inválido para o leilao:" + id));
   }
 
   @Override
   @Transactional(readOnly = true)
-  public List<ConcorrenteResponseDto> buscarDtosPorIdOuTodos(Long id) {
+  public List<ConcorrenteResponseDto> searchDataByIDorAll(Long id) {
 
     if (id == null) {
       return ConcorrenteMapper.toListDto(findAll());
     } else {
 
-      Concorrente concorrente = buscarPorId(id);
+      Concorrente concorrente = searchById(id);
       if (concorrente != null) {
         return ConcorrenteMapper.toListDto(Collections.singletonList(concorrente));
 
@@ -63,10 +63,10 @@ public class ConcorrenteServiceImpl implements ConcorrenteService {
   @Override
   @Transactional(readOnly = false)
   public Concorrente update(Long id, ConcorrenteForm concorrenteForm) {
-    Concorrente concorrente = buscarPorId(id);
+    Concorrente concorrente = searchById(id);
     concorrente.setNome(concorrenteForm.getNome());
     concorrente.setCpf(concorrenteForm.getCpf());
-    return salvar(concorrente);
+    return save(concorrente);
   }
 
   @Override

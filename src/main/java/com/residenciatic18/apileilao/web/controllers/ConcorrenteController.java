@@ -31,7 +31,7 @@ public class ConcorrenteController {
   @PostMapping("create")
   public ResponseEntity<ConcorrenteResponseDto> create(@RequestBody ConcorrenteForm createDto) {
     try {
-      Concorrente obj = concorrenteService.salvar(ConcorrenteMapper.toConcorrente(createDto));
+      Concorrente obj = concorrenteService.save(ConcorrenteMapper.toConcorrente(createDto));
       URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
       return ResponseEntity.created(uri).body(ConcorrenteMapper.toDto(obj));
 
@@ -44,7 +44,7 @@ public class ConcorrenteController {
   public ResponseEntity<List<ConcorrenteResponseDto>> getById(@PathVariable Long id) {
 
     if (concorrenteService.isExisteId(id)) {
-      return ResponseEntity.ok().body(concorrenteService.buscarDtosPorIdOuTodos(id));
+      return ResponseEntity.ok().body(concorrenteService.searchDataByIDorAll(id));
 
     } else {
       return ResponseEntity.notFound().build();

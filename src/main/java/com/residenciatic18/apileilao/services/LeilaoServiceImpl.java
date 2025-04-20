@@ -1,19 +1,27 @@
 package com.residenciatic18.apileilao.services;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.residenciatic18.apileilao.entities.Concorrente;
+import com.residenciatic18.apileilao.entities.Lance;
 import com.residenciatic18.apileilao.entities.Leilao;
+import com.residenciatic18.apileilao.entities.enums.LeilaoStatus;
 import com.residenciatic18.apileilao.repositories.LanceRepository;
 import com.residenciatic18.apileilao.repositories.LeilaoRepository;
 import com.residenciatic18.apileilao.web.dto.LeilaoResponseDto;
 import com.residenciatic18.apileilao.web.dto.form.LeilaoForm;
+import com.residenciatic18.apileilao.web.dto.mapper.ConcorrenteMapper;
 import com.residenciatic18.apileilao.web.dto.mapper.LeilaoMapper;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 @Transactional(readOnly = false)
@@ -26,27 +34,27 @@ public class LeilaoServiceImpl implements LeilaoService {
   private LanceRepository lanceRepository;
 
   @Override
-  public Leilao salvar(Leilao leilao) {
+  public Leilao save(Leilao leilao) {
     return leilaoRepository.save(leilao);
   }
 
   @Override
   @Transactional(readOnly = true)
-  public Leilao buscarPorId(Long id) {
+  public Leilao searchById(Long id) {
     return leilaoRepository.findById(id)
         .orElseThrow(() -> new IllegalArgumentException("Id Inválido para o leilao:" + id));
   }
 
   @Override
   @Transactional(readOnly = true)
-  public List<LeilaoResponseDto> buscarDtosPorIdOuTodos(Long id) {
+  public List<LeilaoResponseDto> searchDataByIDorAll(Long id) {
 
     if (id == null) {
       return LeilaoMapper.toListDto(leilaoRepository.findAll());
 
     } else {
 
-      Leilao leilao = buscarPorId(id);
+      Leilao leilao = searchById(id);
       if (leilao != null) {
         return LeilaoMapper.toListDto(Collections.singletonList(leilao));
 
@@ -64,11 +72,11 @@ public class LeilaoServiceImpl implements LeilaoService {
 
   @Override
   public Leilao update(Long id, LeilaoForm leilaoForm) {
-    Leilao leilao = buscarPorId(id);
+    Leilao leilao = searchById(id);
     leilao.setDescricao(leilaoForm.getDescricao());
     leilao.setValorMinimo(leilaoForm.getValorMinimo());
     leilao.setLeilaoStatus(leilaoForm.getLeilaoStatus());
-    return salvar(leilao);
+    return save(leilao);
   }
 
   @Override
@@ -86,7 +94,45 @@ public class LeilaoServiceImpl implements LeilaoService {
 
   @Override
   @Transactional(readOnly = true)
-  public Optional<Leilao> vencedorDoLeilaoPorId(Long leilaoId) {
+  public Map<String, Object> obterDadosDoVencedor(Long leilaoId) {
+    if (!isExisteId(leilaoId)) {
+      throw new EntityNotFoundException("Leilão não encontrado");
+    }
+
+    Leilao leilao = searchById(leilaoId);
+
+    if (LeilaoStatus.FECHADO.equals(leilao.getLeilaoStatus())) {
+      throw new IllegalStateException("Leilão está fechado");
+    }
+
+    Optional<Leilao> optionalLeilao = winnerOfAuctionById(leilaoId);
+    if (optionalLeilao.isEmpty()) {
+      throw new EntityNotFoundException("Leilão sem lances");
+    }
+
+    Leilao leilaoComMaiorLance = optionalLeilao.get();
+    Double maiorLanceValor = leilaoComMaiorLance.getLances().stream()
+        .mapToDouble(Lance::getValor)
+        .max()
+        .orElse(0.0);
+
+    Concorrente concorrente = leilaoComMaiorLance.getLances().stream()
+        .filter(lance -> lance.getValor().equals(maiorLanceValor))
+        .findFirst()
+        .map(Lance::getConcorrente)
+        .orElse(null);
+
+    Map<String, Object> response = new HashMap<>();
+    response.put("leilao", LeilaoMapper.toDto(leilaoComMaiorLance));
+    response.put("maiorLance", maiorLanceValor);
+    response.put("concorrente", concorrente != null ? ConcorrenteMapper.toDto(concorrente) : null);
+
+    return response;
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public Optional<Leilao> winnerOfAuctionById(Long leilaoId) {
     return leilaoRepository.findLeilaoWithMaiorLanceAndConcorrenteById(leilaoId);
   }
 

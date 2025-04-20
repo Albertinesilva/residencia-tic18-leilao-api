@@ -14,13 +14,13 @@ import lombok.*;
 public class LeilaoResponseDto extends AbstractEntity {
 
   private Long id;
-  private String descricrao;
+  private String descricao;
   private Double valorMinimo;
   private String leilaoStatus;
 
   public LeilaoResponseDto(Leilao leilao, LeilaoStatus leilaoStatus) {
     setId(leilao.getId());
-    this.descricrao = leilao.getDescricao();
+    this.descricao = leilao.getDescricao();
     this.valorMinimo = leilao.getValorMinimo();
     setLeilaoStatus(leilaoStatus);
   }

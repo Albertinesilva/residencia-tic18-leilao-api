@@ -21,7 +21,7 @@ public class LeilaoMapper {
       @Override
       protected void configure() {
         map().setId(source.getId());
-        map().setDescricrao(source.getDescricao());
+        map().setDescricao(source.getDescricao());
         map().setValorMinimo(source.getValorMinimo());
         map().setLeilaoStatus(source.getLeilaoStatus());
       }

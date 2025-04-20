@@ -50,7 +50,7 @@ public class LanceController {
     }
 
     // Verificar se o leilão está fechado
-    Leilao leilao = leilaoService.buscarPorId(createDto.getLeilaoId());
+    Leilao leilao = leilaoService.searchById(createDto.getLeilaoId());
     if (leilao.getLeilaoStatus() == LeilaoStatus.FECHADO) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
@@ -61,7 +61,7 @@ public class LanceController {
     }
 
     // Salvar o lance
-    Lance obj = lanceService.salvar(LanceMapper.toLance(createDto));
+    Lance obj = lanceService.save(LanceMapper.toLance(createDto));
     URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
     return ResponseEntity.created(uri).body(LanceMapper.toDto(obj));
   }
@@ -69,7 +69,7 @@ public class LanceController {
   @GetMapping("/{id}")
   public ResponseEntity<List<LanceResponseDto>> getById(@PathVariable Long id) {
     if (lanceService.isExisteId(id)) {
-      return ResponseEntity.ok().body(lanceService.buscarDtosPorIdOuTodos(id));
+      return ResponseEntity.ok().body(lanceService.searchDataByIDorAll(id));
     }
     return ResponseEntity.notFound().build();
   }
@@ -110,7 +110,7 @@ public class LanceController {
     }
 
     // Verificar se o leilão está fechado
-    Leilao leilao = leilaoService.buscarPorId(createDto.getLeilaoId());
+    Leilao leilao = leilaoService.searchById(createDto.getLeilaoId());
     if (leilao.getLeilaoStatus() == LeilaoStatus.FECHADO) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
@@ -131,13 +131,13 @@ public class LanceController {
     }
 
     // Busca o lance pelo ID
-    Lance lance = lanceService.buscarPorId(id);
+    Lance lance = lanceService.searchById(id);
     if (lance == null) {
       return ResponseEntity.notFound().build();
     }
 
     // Busca o leilão usando o ID do leilão associado ao lance
-    Leilao leilao = leilaoService.buscarPorId(lance.getLeilao().getId());
+    Leilao leilao = leilaoService.searchById(lance.getLeilao().getId());
 
     // Verifica se o leilão está fechado
     if (leilao.getLeilaoStatus() == LeilaoStatus.FECHADO) {

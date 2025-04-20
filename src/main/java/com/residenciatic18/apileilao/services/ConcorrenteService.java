@@ -8,13 +8,13 @@ import com.residenciatic18.apileilao.web.dto.form.ConcorrenteForm;
 
 public interface ConcorrenteService {
 
-  Concorrente salvar(Concorrente aeroporto);
+  Concorrente save(Concorrente aeroporto);
 
-  List<ConcorrenteResponseDto> buscarDtosPorIdOuTodos(Long id);
+  List<ConcorrenteResponseDto> searchDataByIDorAll(Long id);
 
   List<Concorrente> findAll();
 
-  Concorrente buscarPorId(Long id);
+  Concorrente searchById(Long id);
 
   Concorrente update(Long id, ConcorrenteForm aeroportoForm);
 

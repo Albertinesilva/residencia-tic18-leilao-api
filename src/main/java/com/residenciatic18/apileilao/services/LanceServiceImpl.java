@@ -31,20 +31,20 @@ public class LanceServiceImpl implements LanceService {
 
   @Override
   @Transactional
-  public Lance salvar(Lance lance) {
+  public Lance save(Lance lance) {
     return lanceRepository.save(lance);
   }
 
   @Override
   @Transactional(readOnly = true)
-  public List<LanceResponseDto> buscarDtosPorIdOuTodos(Long id) {
+  public List<LanceResponseDto> searchDataByIDorAll(Long id) {
 
     if (id == null) {
       return LanceMapper.toListDto(findAll());
 
     } else {
 
-      Lance lance = buscarPorId(id);
+      Lance lance = searchById(id);
       if (lance != null) {
         return LanceMapper.toListDto(Collections.singletonList(lance));
 
@@ -76,7 +76,7 @@ public class LanceServiceImpl implements LanceService {
   }
 
   @Override
-  public Lance buscarPorId(Long id) {
+  public Lance searchById(Long id) {
     return lanceRepository.findById(id)
         .orElseThrow(() -> new IllegalArgumentException("Id Inválido para o lance:" + id));
   }
@@ -84,16 +84,16 @@ public class LanceServiceImpl implements LanceService {
   @Override
   public Lance update(Long id, LanceForm lanceForm) {
 
-    Lance lance = buscarPorId(id);
+    Lance lance = searchById(id);
 
     // Atualizar o leilão e o concorrente do lance
-    Leilao leilao = leilaoService.buscarPorId(lanceForm.getLeilaoId());
+    Leilao leilao = leilaoService.searchById(lanceForm.getLeilaoId());
     if (leilao == null) {
       throw new NoSuchElementException("Leilão com ID " + lanceForm.getLeilaoId() + " não encontrado");
     }
     lance.setLeilao(leilao);
 
-    Concorrente concorrente = concorrenteService.buscarPorId(lanceForm.getConcorrenteId());
+    Concorrente concorrente = concorrenteService.searchById(lanceForm.getConcorrenteId());
     if (concorrente == null) {
       throw new NoSuchElementException("Concorrente com ID " + lanceForm.getConcorrenteId() + " não encontrado");
     }
@@ -105,7 +105,7 @@ public class LanceServiceImpl implements LanceService {
     }
     lance.setValor(valor);
 
-    return salvar(lance);
+    return save(lance);
   }
 
   @Override
@@ -123,8 +123,8 @@ public class LanceServiceImpl implements LanceService {
   }
 
   @Override
-  public Lance findMaiorLancePorLeilaoId(Long leilaoId) {
-    Lance lance = buscarPorId(leilaoId);
+  public Lance findHighestBidByAuctionId(Long leilaoId) {
+    Lance lance = searchById(leilaoId);
 
     if (lance.getValor() == lanceRepository.findAll().stream().mapToDouble(Lance::getValor).max().getAsDouble()) {
       return lance;
