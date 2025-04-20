@@ -8,7 +8,7 @@ import com.residenciatic18.apileilao.web.dto.form.LanceForm;
 
 public interface LanceService {
 
-  List<LanceResponseDto> findById(Long id);
+  List<LanceResponseDto> buscarDtosPorIdOuTodos(Long id);
 
   List<Lance> findAll();
 

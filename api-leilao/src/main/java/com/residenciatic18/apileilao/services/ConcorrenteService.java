@@ -20,5 +20,5 @@ public interface ConcorrenteService {
 
   void delete(Long id);
 
-  Boolean isExisteId(Long id);
+  boolean isExisteId(Long id);
 }

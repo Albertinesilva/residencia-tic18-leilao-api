@@ -16,14 +16,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.residenciatic18.apileilao.entities.Concorrente;
 import com.residenciatic18.apileilao.entities.Lance;
 import com.residenciatic18.apileilao.entities.Leilao;
+import com.residenciatic18.apileilao.entities.enums.LeilaoStatus;
 import com.residenciatic18.apileilao.services.ConcorrenteService;
 import com.residenciatic18.apileilao.services.LanceService;
 import com.residenciatic18.apileilao.services.LeilaoService;
+import com.residenciatic18.apileilao.web.dto.ConcorrenteResponseDto;
 import com.residenciatic18.apileilao.web.dto.LanceResponseDto;
 import com.residenciatic18.apileilao.web.dto.form.LanceForm;
+import com.residenciatic18.apileilao.web.dto.mapper.ConcorrenteMapper;
 import com.residenciatic18.apileilao.web.dto.mapper.LanceMapper;
 
 @RestController
@@ -49,7 +51,7 @@ public class LanceController {
 
     // Verificar se o leilão está fechado
     Leilao leilao = leilaoService.buscarPorId(createDto.getLeilaoId());
-    if (leilao.getLeilaoStatus().equals(leilao.getLeilaoStatus().FECHADO)) {
+    if (leilao.getLeilaoStatus() == LeilaoStatus.FECHADO) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
@@ -67,13 +69,13 @@ public class LanceController {
   @GetMapping("/{id}")
   public ResponseEntity<List<LanceResponseDto>> getById(@PathVariable Long id) {
     if (lanceService.isExisteId(id)) {
-      return ResponseEntity.ok().body(lanceService.findById(id));
+      return ResponseEntity.ok().body(lanceService.buscarDtosPorIdOuTodos(id));
     }
     return ResponseEntity.notFound().build();
   }
 
   @GetMapping("/")
-  public ResponseEntity<List<LanceResponseDto>> buscarTodos() {
+  public ResponseEntity<List<LanceResponseDto>> searchAll() {
     return ResponseEntity.ok(LanceMapper.toListDto(lanceService.findAll()));
   }
 
@@ -99,7 +101,7 @@ public class LanceController {
     }
   }
 
-  @PutMapping("/{id}")
+  @PutMapping("{id}")
   public ResponseEntity<LanceResponseDto> update(@PathVariable Long id, @RequestBody LanceForm createDto) {
 
     // Verificar se o leilão existe
@@ -109,7 +111,7 @@ public class LanceController {
 
     // Verificar se o leilão está fechado
     Leilao leilao = leilaoService.buscarPorId(createDto.getLeilaoId());
-    if (leilao.getLeilaoStatus().equals(leilao.getLeilaoStatus().FECHADO)) {
+    if (leilao.getLeilaoStatus() == LeilaoStatus.FECHADO) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
@@ -121,29 +123,43 @@ public class LanceController {
   }
 
   @DeleteMapping("{id}")
-  public ResponseEntity<Void> excluir(@PathVariable("id") Long id) {
+  public ResponseEntity<ConcorrenteResponseDto> delete(@PathVariable("id") Long id) {
 
-    if (id == null || id <= 0) {
+    // Verifica se o lance existe
+    if (!lanceService.isExisteId(id)) {
       return ResponseEntity.notFound().build();
     }
 
-    if (!concorrenteService.isExisteId(id)) {
+    // Busca o lance pelo ID
+    Lance lance = lanceService.buscarPorId(id);
+    if (lance == null) {
       return ResponseEntity.notFound().build();
     }
 
-    Concorrente concorrente = concorrenteService.buscarPorId(id);
-    if (concorrente == null) {
-      return ResponseEntity.notFound().build();
-    }
+    // Busca o leilão usando o ID do leilão associado ao lance
+    Leilao leilao = leilaoService.buscarPorId(lance.getLeilao().getId());
 
-    Leilao leilao = leilaoService.buscarPorId(id);
-    if (leilao.getLeilaoStatus().equals(leilao.getLeilaoStatus().FECHADO)) {
+    // Verifica se o leilão está fechado
+    if (leilao.getLeilaoStatus() == LeilaoStatus.FECHADO) {
       return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 
     // Excluir o lance
     lanceService.delete(id);
-    return ResponseEntity.ok().build();
+
+    // Retorna DTO atualizado (Concorrente com lista de lances atualizada)
+    ConcorrenteResponseDto dto = ConcorrenteMapper.toDto(lance.getConcorrente());
+    return ResponseEntity.ok(dto);
+  }
+
+  @PutMapping
+  public ResponseEntity<Void> handleMissingId() {
+    return ResponseEntity.notFound().build();
+  }
+
+  @DeleteMapping
+  public ResponseEntity<Void> deleteNoId() {
+    return ResponseEntity.notFound().build();
   }
 
 }

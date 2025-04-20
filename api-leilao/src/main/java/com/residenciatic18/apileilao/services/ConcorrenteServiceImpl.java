@@ -83,12 +83,8 @@ public class ConcorrenteServiceImpl implements ConcorrenteService {
   }
 
   @Override
-  public Boolean isExisteId(Long id) {
-    if (concorrenteRepository.existsById(id)) {
-      return true;
-    } else {
-      return false;
-    }
+  public boolean isExisteId(Long id) {
+    return concorrenteRepository.existsById(id);
   }
 
 }

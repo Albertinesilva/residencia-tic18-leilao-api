@@ -22,6 +22,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.residenciatic18.apileilao.entities.Concorrente;
 import com.residenciatic18.apileilao.entities.Lance;
 import com.residenciatic18.apileilao.entities.Leilao;
+import com.residenciatic18.apileilao.entities.enums.LeilaoStatus;
 import com.residenciatic18.apileilao.services.LeilaoService;
 import com.residenciatic18.apileilao.web.dto.LeilaoResponseDto;
 import com.residenciatic18.apileilao.web.dto.form.LeilaoForm;
@@ -84,7 +85,6 @@ public class LeilaoController {
     return ResponseEntity.notFound().build();
   }
 
-  @SuppressWarnings("static-access")
   @GetMapping("vencedor_leilao/{id}")
   public ResponseEntity<Map<String, Object>> AuctionWinner(@PathVariable Long id) {
 
@@ -99,7 +99,7 @@ public class LeilaoController {
     }
 
     // Verificar se o leilão está fechado
-    if (leilao.getLeilaoStatus().equals(leilao.getLeilaoStatus().FECHADO)) {
+    if (leilao.getLeilaoStatus() == LeilaoStatus.FECHADO) {
       return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 
