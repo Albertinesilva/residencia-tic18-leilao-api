@@ -27,6 +27,14 @@ import com.residenciatic18.apileilao.web.dto.mapper.LanceMapper;
 import com.residenciatic18.apileilao.web.dto.response.ConcorrenteResponseDto;
 import com.residenciatic18.apileilao.web.dto.response.LanceResponseDto;
 
+/**
+ * Implementação do serviço de lances.
+ * 
+ * A classe {@link LanceServiceImpl} implementa a interface {@link LanceService} e
+ * fornece métodos para gerenciar os lances, como salvar, atualizar, deletar, e buscar
+ * lances, além de realizar validações. As operações de leitura e escrita são gerenciadas
+ * com transações e controle de exceções.
+ */
 @Service
 @Transactional(readOnly = false)
 public class LanceServiceImpl implements LanceService {
@@ -40,12 +48,24 @@ public class LanceServiceImpl implements LanceService {
   @Autowired
   private ConcorrenteService concorrenteService;
 
+  /**
+   * Salva um novo lance no banco de dados.
+   *
+   * @param lance O objeto Lance a ser salvo.
+   * @return O lance salvo.
+   */
   @Override
   @Transactional
   public Lance save(Lance lance) {
     return lanceRepository.save(lance);
   }
 
+  /**
+   * Busca lances por ID ou retorna todos os lances.
+   *
+   * @param id O ID do lance a ser buscado. Se nulo, retorna todos os lances.
+   * @return Lista de lances em formato DTO.
+   */
   @Override
   @Transactional(readOnly = true)
   public List<LanceResponseDto> searchDataByIDorAll(Long id) {
@@ -65,6 +85,12 @@ public class LanceServiceImpl implements LanceService {
     }
   }
 
+  /**
+   * Busca lances associados a um leilão pelo ID do leilão.
+   *
+   * @param id O ID do leilão.
+   * @return Lista de lances em formato DTO.
+   */
   @Override
   @Transactional(readOnly = true)
   public List<LanceResponseDto> getByLeilaoId(Long id) {
@@ -73,6 +99,12 @@ public class LanceServiceImpl implements LanceService {
     return LanceMapper.toListDto(lanceRepository.findByLeilaoId(leilao.getId()));
   }
 
+  /**
+   * Busca lances associados a um concorrente pelo ID do concorrente.
+   *
+   * @param id O ID do concorrente.
+   * @return Lista de lances em formato DTO.
+   */
   @Override
   @Transactional(readOnly = true)
   public List<LanceResponseDto> getByConcorrenteId(Long id) {
@@ -81,17 +113,38 @@ public class LanceServiceImpl implements LanceService {
     return LanceMapper.toListDto(lanceRepository.findByConcorrenteId(concorrente.getId()));
   }
 
+  /**
+   * Retorna todos os lances armazenados no banco de dados.
+   *
+   * @return Lista de todos os lances.
+   */
   @Override
   public List<Lance> findAll() {
     return lanceRepository.findAll();
   }
 
+  /**
+   * Busca um lance pelo ID. Lança uma exceção se não encontrar.
+   *
+   * @param id O ID do lance.
+   * @return O lance correspondente ao ID fornecido.
+   * @throws IllegalArgumentException Se o lance não for encontrado.
+   */
   @Override
   public Lance searchById(Long id) {
     return lanceRepository.findById(id)
         .orElseThrow(() -> new IllegalArgumentException("Id Inválido para o lance:" + id));
   }
 
+  /**
+   * Atualiza um lance existente com os dados fornecidos.
+   *
+   * @param id        O ID do lance a ser atualizado.
+   * @param lanceForm O formulário contendo os dados do lance a ser atualizado.
+   * @return O lance atualizado.
+   * @throws IllegalArgumentException Se o valor do lance for inválido (menor ou igual a zero).
+   * @throws NoSuchElementException   Se o leilão ou concorrente não forem encontrados.
+   */
   @Override
   public Lance update(Long id, LanceForm lanceForm) {
 
@@ -119,20 +172,33 @@ public class LanceServiceImpl implements LanceService {
     return save(lance);
   }
 
+  /**
+   * Exclui um lance pelo ID.
+   *
+   * @param id O ID do lance a ser excluído.
+   */
   @Override
   public void delete(Long id) {
     lanceRepository.deleteById(id);
   }
 
+  /**
+   * Verifica se um lance com o ID fornecido existe.
+   *
+   * @param id O ID do lance.
+   * @return True se o lance existir, caso contrário, false.
+   */
   @Override
   public Boolean isExisteId(Long id) {
-    if (lanceRepository.existsById(id)) {
-      return true;
-    } else {
-      return false;
-    }
+    return lanceRepository.existsById(id);
   }
 
+  /**
+   * Retorna o lance com o maior valor de um leilão específico.
+   *
+   * @param leilaoId O ID do leilão.
+   * @return O lance com o maior valor ou null se não houver um lance maior.
+   */
   @Override
   public Lance findHighestBidByAuctionId(Long leilaoId) {
     Lance lance = searchById(leilaoId);
@@ -144,25 +210,30 @@ public class LanceServiceImpl implements LanceService {
     }
   }
 
+  /**
+   * Cria um novo lance baseado nos dados fornecidos no formulário.
+   *
+   * @param createDto O DTO contendo os dados para criação do lance.
+   * @return A resposta com o lance criado e o URI correspondente.
+   */
   @Override
   @Transactional
   public ResponseEntity<?> createBid(LanceForm createDto) {
-    // Validate auction
+    // Validações para leilão e concorrente
     ResponseEntity<Void> auctionValidation = leilaoService.validateAuction(createDto.getLeilaoId());
     if (!auctionValidation.getStatusCode().is2xxSuccessful()) {
       return auctionValidation;
     }
 
-    // Validate bidder
     ResponseEntity<Void> bidderValidation = concorrenteService.validateBidder(createDto.getConcorrenteId());
     if (!bidderValidation.getStatusCode().is2xxSuccessful()) {
       return bidderValidation;
     }
 
-    // Create and save the bid
+    // Cria e salva o lance
     Lance lance = lanceRepository.save(LanceMapper.toLance(createDto));
 
-    // Build URI
+    // Constrói o URI de resposta
     URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
         .path("/{id}")
         .buildAndExpand(lance.getId())
@@ -171,6 +242,12 @@ public class LanceServiceImpl implements LanceService {
     return ResponseEntity.created(uri).body(LanceMapper.toDto(lance));
   }
 
+  /**
+   * Busca lances pelo ID, retornando um erro 404 se não encontrado.
+   *
+   * @param id O ID do lance.
+   * @return A resposta com os lances encontrados ou um erro 404.
+   */
   @Override
   @Transactional(readOnly = true)
   public ResponseEntity<List<LanceResponseDto>> getByIdOrNotFound(Long id) {
@@ -181,6 +258,12 @@ public class LanceServiceImpl implements LanceService {
     return ResponseEntity.ok(response);
   }
 
+  /**
+   * Busca lances pelo ID do leilão, retornando um erro 404 se não encontrado.
+   *
+   * @param id O ID do leilão.
+   * @return A resposta com os lances encontrados ou um erro 404.
+   */
   @Override
   @Transactional(readOnly = true)
   public ResponseEntity<List<LanceResponseDto>> getByLeilaoIdOrNotFound(Long id) {
@@ -191,6 +274,12 @@ public class LanceServiceImpl implements LanceService {
     return ResponseEntity.ok(lances);
   }
 
+  /**
+   * Busca lances pelo ID do concorrente, retornando um erro 404 se não encontrado.
+   *
+   * @param id O ID do concorrente.
+   * @return A resposta com os lances encontrados ou um erro 404.
+   */
   @Override
   @Transactional(readOnly = true)
   public ResponseEntity<List<LanceResponseDto>> getByConcorrenteIdOrNotFound(Long id) {
@@ -201,38 +290,49 @@ public class LanceServiceImpl implements LanceService {
     return ResponseEntity.ok(lances);
   }
 
+  /**
+   * Atualiza um lance existente com os dados fornecidos, realizando validações.
+   *
+   * @param id        O ID do lance a ser atualizado.
+   * @param createDto O DTO contendo os dados do lance.
+   * @return A resposta com o lance atualizado.
+   */
   @Override
   @Transactional(readOnly = false)
   public ResponseEntity<LanceResponseDto> updateBid(Long id, LanceForm createDto) {
-    // Verificar se o leilão existe
+    // Verifica as condições de validação do leilão e concorrente
     if (!leilaoService.isExisteId(createDto.getLeilaoId())) {
       return ResponseEntity.badRequest().build(); // Leilão não encontrado
     }
 
-    // Verificar se o leilão está fechado
     Leilao leilao = leilaoService.searchById(createDto.getLeilaoId());
     if (leilao.getLeilaoStatus() == LeilaoStatus.FECHADO) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); // Leilão fechado
     }
 
-    // Verificar se o concorrente existe
     if (!concorrenteService.isExisteId(createDto.getConcorrenteId())) {
       return ResponseEntity.status(HttpStatus.FORBIDDEN).build(); // Concorrente não encontrado
     }
 
-    // Verificar se o lance existe (id válido)
+    // Verifica se o lance existe
     Optional<Lance> existingLanceOpt = lanceRepository.findById(id);
     if (!existingLanceOpt.isPresent()) {
-      return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); // Lance não encontrado (ID inválido)
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); // Lance não encontrado
     }
 
-    // Atualizar o lance utilizando o método update do LanceServiceImpl
-    Lance updatedLance = update(id, createDto); // Chama o método update do LanceServiceImpl
+    // Atualiza o lance
+    Lance updatedLance = update(id, createDto);
 
-    // Retornar o lance atualizado
+    // Retorna o lance atualizado
     return ResponseEntity.ok(LanceMapper.toDto(updatedLance));
   }
 
+  /**
+   * Exclui um lance existente, se possível, e retorna o DTO atualizado do concorrente.
+   *
+   * @param id O ID do lance a ser excluído.
+   * @return O DTO do concorrente atualizado.
+   */
   @Override
   @Transactional(readOnly = false)
   public Optional<ConcorrenteResponseDto> deleteBid(Long id) {
@@ -255,7 +355,6 @@ public class LanceServiceImpl implements LanceService {
 
     // Retorna o DTO atualizado do concorrente
     ConcorrenteResponseDto concorrenteDto = ConcorrenteMapper.toDto(lance.getConcorrente());
-    return Optional.of(concorrenteDto); // Retorna o DTO com o concorrente atualizado
+    return Optional.of(concorrenteDto);
   }
-
 }
