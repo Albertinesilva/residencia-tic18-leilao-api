@@ -19,8 +19,7 @@ O sistema deve:
 
 ---
 
-🗃️ Banco de Dados
-Banco: H2 Database
+🗃️ Banco de Dados: H2 Database
 
 Configuração: Localizado em /leilao/src/main/resources/application.properties
 
